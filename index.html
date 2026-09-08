@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLG kids Store | Coming Soon</title>
+    <style>
+        /* Modern Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header / Hero Section */
+        header {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+            padding: 4rem 1.5rem;
+            text-align: center;
+        }
+
+        .badge {
+            background-color: #f59e0b;
+            color: #78350f;
+            padding: 0.3rem 0.8rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: -2rem auto 2rem auto;
+            padding: 0 1.5rem;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* Mission Card */
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 2rem;
+        }
+
+        .card h2 {
+            color: #0369a1;
+            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+        }
+
+        /* Products Grid Preview */
+        .section-title {
+            text-align: center;
+            margin: 2rem 0 1rem 0;
+            color: #334155;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .product-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-item h3 {
+            font-size: 1.1rem;
+            color: #1e293b;
+        }
+
+        /* Contact / Order Inquiry Box */
+        .contact-box {
+            background: #e0f2fe;
+            border-left: 4px solid #0284c7;
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 2rem;
+        }
+
+        .contact-box h3 {
+            color: #0369a1;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-box a {
+            color: #0284c7;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .contact-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .tagline { font-size: 1rem; }
+            .container { margin-top: -1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="badge">Non-Profit Organization</span>
+        <h1>TLG kids Store</h1>
+        <p class="tagline">Kids helping kids build a brighter future through education.</p>
+    </header>
+
+    <div class="container">
+        <!-- Mission Section -->
+        <div class="card">
+            <h2>Our Mission</h2>
+            <p>
+                <strong>TLG kids Store</strong> is a non-profit company run by kids, dedicated to raising funds to help children in the <strong>Dominican Republic</strong> afford and access continuing education. Every purchase directly supports educational opportunities and empowers young students to achieve their dreams.
+            </p>
+        </div>
+
+        <!-- Products Preview Section -->
+        <h2 class="section-title">What We Offer (Coming Soon)</h2>
+        <div class="product-grid">
+            <div class="product-item">
+                <div class="product-icon">👕</div>
+                <h3>Shirts & Apparel</h3>
+            </div>
+            <div class="product-item">
+                <div class="product-icon">🧢</div>
+                <h3>Hats & Caps</h3>
+            </div>
+            <div class="product-item">
+                <div class="product-icon">👜</div>
+                <h3>Bags & Totes</h3>
+            </div>
+            <div class="product-item">
+                <div class="product-icon">🥤</div>
+                <h3>Tumblers & Mugs</h3>
+            </div>
+            <div class="product-item">
+                <div class="product-icon">🎨</div>
+                <h3>Custom & Pre-designed Images</h3>
+            </div>
+            <div class="product-item">
+                <div class="product-icon">🧊</div>
+                <h3>3D Printed Items</h3>
+            </div>
+        </div>
+
+        <!-- Order / Email Notice Section -->
+        <div class="contact-box">
+            <h3>How Ordering Will Work</h3>
+            <p>
+                Our full store catalog is currently under construction! Once launched, you will be able to browse item photos and place custom requests. 
+            </p>
+            <p style="margin-top: 0.5rem;">
+                <em>Note: We will not accept credit cards on this website. Orders will generate an email order request, and we will contact you directly to complete your custom request.</em>
+            </p>
+            <p style="margin-top: 1rem;">
+                For immediate inquiries, email us at: <a href="mailto:info@example.com">info@example.com</a>
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        &copy; <span id="year"></span> TLG kids Store. All rights reserved.
+    </footer>
+
+    <script>
+        // Set current year in footer automatically
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
