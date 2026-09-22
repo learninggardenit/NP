@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,22 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">TLG kids Store | Coming Soon</title>
     <style>
-        /* Modern Base Styles */
+        /* Modern Reset & Base Styles */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
         
-        /* Header / Hero */
+        /* Header / Hero Section */
         header { background: linear-gradient(135deg, #0284c7, #0369a1); color: white; padding: 3rem 1.5rem; text-align: center; cursor: pointer; user-select: none; }
         .badge { background-color: #f59e0b; color: #78350f; padding: 0.3rem 0.8rem; border-radius: 9999px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; display: inline-block; margin-bottom: 1rem; }
         h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
         .tagline { font-size: 1.25rem; max-width: 600px; margin: 0 auto; opacity: 0.95; }
         
-        /* Container */
+        /* Layout Container */
         .container { max-width: 1000px; margin: -1.5rem auto 2rem auto; padding: 0 1.5rem; width: 100%; flex: 1; }
         .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 2rem; }
         .card h2 { color: #0369a1; margin-bottom: 0.75rem; font-size: 1.5rem; }
         
-        /* Store Grid */
+        /* Product Store Grid */
         .section-title { text-align: center; margin: 2rem 0 1rem 0; color: #334155; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
         .product-card { background: white; border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s; }
@@ -34,7 +35,7 @@
         .order-btn { background: #0284c7; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
         .order-btn:hover { background: #0369a1; }
 
-        /* Admin Modal */
+        /* Admin Modal Styling */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 1rem; }
         .modal-content { background: white; border-radius: 12px; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative; }
         .close-btn { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; border: none; background: none; }
@@ -61,7 +62,7 @@
     </header>
 
     <div class="container">
-        <!-- Mission Statement -->
+        <!-- Mission Statement Card -->
         <div class="card">
             <h2>Our Mission</h2>
             <p id="mission-text">
@@ -69,10 +70,10 @@
             </p>
         </div>
 
-        <!-- Store Section -->
+        <!-- Store Grid -->
         <h2 class="section-title">Catalog & Store Items</h2>
         <div class="product-grid" id="product-grid">
-            <!-- Dynamic products will load here -->
+            <!-- Dynamic products render here -->
         </div>
     </div>
 
@@ -80,18 +81,20 @@
         &copy; <span id="year"></span> TLG kids Store. All rights reserved.
     </footer>
 
-    <!-- Admin Modal -->
+    <!-- Hidden Admin Modal Interface -->
     <div class="modal" id="admin-modal">
         <div class="modal-content">
             <button class="close-btn" id="close-modal">&times;</button>
             <h2 style="margin-bottom: 1rem; color: #0284c7;">⚙️ Store Admin Manager</h2>
             
-            <div class="form-group">
+            <!-- Security PIN Auth Input -->
+            <div class="form-group" id="pin-container">
                 <label>Enter Security PIN</label>
                 <input type="password" id="pin-input" placeholder="Enter 4-digit PIN (Default: 1234)">
                 <button class="btn btn-primary" id="unlock-btn" style="margin-top:0.5rem;">Unlock Controls</button>
             </div>
 
+            <!-- Admin Editor Controls (Hidden until unlocked by PIN) -->
             <div id="admin-controls" style="display: none;">
                 <hr style="margin: 1rem 0;">
                 
@@ -124,8 +127,8 @@
                         <input type="number" id="new-item-price" placeholder="12.00" step="0.01">
                     </div>
                     <div class="form-group">
-                        <label>Image URL or Base64</label>
-                        <input type="text" id="new-item-img" placeholder="https://via.placeholder.com/150 or upload link">
+                        <label>Image URL</label>
+                        <input type="text" id="new-item-img" placeholder="https://example.com/image.jpg">
                     </div>
                     <button class="btn btn-primary" id="add-item-btn">Add Item to Grid</button>
                 </div>
@@ -140,7 +143,7 @@
                     <div class="form-group" style="margin-top:0.5rem;">
                         <label>GitHub Personal Access Token (PAT)</label>
                         <input type="password" id="github-token" placeholder="ghp_xxxxxxxxxxxx">
-                        <small style="color: #64748b; display:block; margin-top:0.25rem;">Saved locally in your browser only.</small>
+                        <small style="color: #64748b; display:block; margin-top:0.25rem;">Saved locally in this browser only.</small>
                     </div>
                     <button class="btn btn-success" id="publish-github-btn">🚀 Save & Publish Live Changes</button>
                 </div>
@@ -148,9 +151,8 @@
         </div>
     </div>
 
-    <!-- Core Dynamic Data & Admin Logic Script -->
+    <!-- Core Dynamic Data Container -->
     <script id="site-data-script">
-        // Editable Site Data Object
         let siteData = {
             pin: "1234",
             title: "TLG kids Store",
@@ -164,10 +166,11 @@
         };
     </script>
 
+    <!-- Page Functionality & GitHub REST API Integration -->
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Render Page Data
+        // Render Current Site Data
         function renderSite() {
             document.getElementById('header-title').textContent = siteData.title;
             document.getElementById('header-tagline').textContent = siteData.tagline;
@@ -194,10 +197,10 @@
         }
 
         function orderItem(name) {
-            alert(`To request "${name}", please email info@example.com with your item preferences!`);
+            alert(`To request "${name}", please contact us with your order details!`);
         }
 
-        // Easter Egg Trigger (5 fast clicks)
+        // Easter Egg Detection (5 clicks in 1.5s)
         let clickCount = 0;
         let clickTimer;
         document.getElementById('site-header').addEventListener('click', () => {
@@ -211,18 +214,24 @@
             }
         });
 
-        // Admin Modal Logic
+        // Modal Open/Close Controls
         const modal = document.getElementById('admin-modal');
         function openAdminModal() {
+            // Force re-authentication every time modal opens
+            document.getElementById('admin-controls').style.display = 'none';
+            document.getElementById('pin-input').value = '';
             modal.style.display = 'flex';
         }
+
         document.getElementById('close-modal').addEventListener('click', () => {
             modal.style.display = 'none';
+            document.getElementById('admin-controls').style.display = 'none';
+            document.getElementById('pin-input').value = '';
         });
 
-        // Unlock Admin
+        // Verify PIN
         document.getElementById('unlock-btn').addEventListener('click', () => {
-            const enteredPin = document.getElementById('pin-input').value;
+            const enteredPin = document.getElementById('pin-input').value.trim();
             if (enteredPin === siteData.pin) {
                 document.getElementById('admin-controls').style.display = 'block';
                 populateAdminFields();
@@ -258,7 +267,7 @@
             renderSite();
         }
 
-        // Add Product
+        // Add Product to Memory
         document.getElementById('add-item-btn').addEventListener('click', () => {
             const name = document.getElementById('new-item-name').value;
             const desc = document.getElementById('new-item-desc').value;
@@ -277,30 +286,25 @@
             document.getElementById('new-item-img').value = '';
         });
 
-        // Save & Publish directly to GitHub via REST API
+        // Publish live to GitHub via REST API
         document.getElementById('publish-github-btn').addEventListener('click', async () => {
             const token = document.getElementById('github-token').value.trim();
             if (!token) return alert('Please enter a GitHub Personal Access Token to publish live.');
 
             localStorage.setItem('gh_token', token);
 
-            // Update in-memory siteData values from form
             siteData.title = document.getElementById('edit-title').value;
             siteData.tagline = document.getElementById('edit-tagline').value;
             siteData.mission = document.getElementById('edit-mission').value;
 
             renderSite();
 
-            // Prepare updated document content
             let currentHTML = document.documentElement.outerHTML;
-            
-            // Replace the JSON block inside currentHTML
             const dataScriptRegex = /<script id="site-data-script">[\s\S]*?<\/script>/;
             const newScriptTag = `<script id="site-data-script">\n        let siteData = ${JSON.stringify(siteData, null, 12)};\n    <\/script>`;
             
             const updatedHTML = "<!DOCTYPE html>\n" + currentHTML.replace(dataScriptRegex, newScriptTag);
 
-            // GitHub Repository Config (Derived from current URL or defaults)
             const pathParts = window.location.pathname.split('/').filter(p => p);
             const repoOwner = window.location.hostname.split('.')[0];
             const repoName = pathParts[0] || 'NP';
@@ -308,14 +312,12 @@
             const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/index.html`;
 
             try {
-                // Get File SHA first
                 const getFileRes = await fetch(apiUrl, {
                     headers: { 'Authorization': `token ${token}` }
                 });
                 const fileData = await getFileRes.json();
                 const sha = fileData.sha;
 
-                // Commit Updated HTML back to Repo
                 const updateRes = await fetch(apiUrl, {
                     method: 'PUT',
                     headers: {
@@ -332,6 +334,7 @@
                 if (updateRes.ok) {
                     alert('🎉 Success! Changes committed to GitHub. Your live site will update in ~1-2 minutes.');
                     modal.style.display = 'none';
+                    document.getElementById('admin-controls').style.display = 'none';
                 } else {
                     const err = await updateRes.json();
                     alert(`Error publishing: ${err.message}`);
