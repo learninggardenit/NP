@@ -1,26 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">TLG kids Store | Coming Soon</title>
+    <title id="page-title">Kids Serving Kidz | Store & Community</title>
     <style>
         /* Modern Reset & Base Styles */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
-        
+
         /* Header / Hero Section */
         header { background: linear-gradient(135deg, #0284c7, #0369a1); color: white; padding: 3rem 1.5rem; text-align: center; cursor: pointer; user-select: none; }
         .badge { background-color: #f59e0b; color: #78350f; padding: 0.3rem 0.8rem; border-radius: 9999px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; display: inline-block; margin-bottom: 1rem; }
         h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
         .tagline { font-size: 1.25rem; max-width: 600px; margin: 0 auto; opacity: 0.95; }
-        
+
         /* Layout Container */
         .container { max-width: 1000px; margin: -1.5rem auto 2rem auto; padding: 0 1.5rem; width: 100%; flex: 1; }
         .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 2rem; }
         .card h2 { color: #0369a1; margin-bottom: 0.75rem; font-size: 1.5rem; }
-        
+
         /* Product Store Grid */
         .section-title { text-align: center; margin: 2rem 0 1rem 0; color: #334155; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
@@ -32,7 +31,7 @@
         .product-desc { font-size: 0.875rem; color: #64748b; margin-bottom: 0.75rem; flex: 1; }
         .product-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .product-price { font-weight: bold; color: #0284c7; font-size: 1.1rem; }
-        .order-btn { background: #0284c7; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
+        .order-btn { background: #0284c7; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; text-decoration: none; display: inline-block; }
         .order-btn:hover { background: #0369a1; }
 
         /* Admin Modal Styling */
@@ -47,9 +46,11 @@
         .btn-primary { background: #0284c7; color: white; }
         .btn-danger { background: #ef4444; color: white; }
         .btn-success { background: #22c55e; color: white; margin-top: 1rem; width: 100%; padding: 0.75rem; }
-        
+
         /* Footer */
         footer { background-color: #0f172a; color: #94a3b8; text-align: center; padding: 1.5rem; font-size: 0.9rem; margin-top: auto; }
+        footer a { color: #38bdf8; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -57,7 +58,7 @@
     <!-- Header (Click 5 times for Admin Mode) -->
     <header id="site-header" title="Click 5 times for Admin Mode">
         <span class="badge">Non-Profit Organization</span>
-        <h1 id="header-title">TLG kids Store</h1>
+        <h1 id="header-title">Kids Serving Kidz</h1>
         <p class="tagline" id="header-tagline">Kids helping kids build a brighter future through education.</p>
     </header>
 
@@ -66,7 +67,7 @@
         <div class="card">
             <h2>Our Mission</h2>
             <p id="mission-text">
-                TLG kids Store is a non-profit company run by kids, dedicated to raising funds to help children in the Dominican Republic afford and access continuing education. Every purchase directly supports educational opportunities and empowers young students to achieve their dreams.
+                Kids Serving Kidz is a non-profit organization run by kids, dedicated to raising funds to help children in the Dominican Republic afford and access continuing education. Every purchase directly supports educational opportunities and empowers young students to achieve their dreams.
             </p>
         </div>
 
@@ -78,7 +79,8 @@
     </div>
 
     <footer>
-        &copy; <span id="year"></span> TLG kids Store. All rights reserved.
+        &copy; <span id="year"></span> Kids Serving Kidz. All rights reserved.<br>
+        <small>Questions or custom orders? Email us at <a href="mailto:orders@tlgkidzservingkidz.org">orders@tlgkidzservingkidz.org</a></small>
     </footer>
 
     <!-- Hidden Admin Modal Interface -->
@@ -86,7 +88,7 @@
         <div class="modal-content">
             <button class="close-btn" id="close-modal">&times;</button>
             <h2 style="margin-bottom: 1rem; color: #0284c7;">⚙️ Store Admin Manager</h2>
-            
+
             <!-- Security PIN Auth Input -->
             <div class="form-group" id="pin-container">
                 <label>Enter Security PIN</label>
@@ -97,7 +99,7 @@
             <!-- Admin Editor Controls (Hidden until unlocked by PIN) -->
             <div id="admin-controls" style="display: none;">
                 <hr style="margin: 1rem 0;">
-                
+
                 <h3>Site Configuration</h3>
                 <div class="form-group" style="margin-top: 0.5rem;">
                     <label>Store Title</label>
@@ -116,7 +118,7 @@
                     <h3>Add New Item</h3>
                     <div class="form-group" style="margin-top:0.5rem;">
                         <label>Item Name</label>
-                        <input type="text" id="new-item-name" placeholder="e.g. TLG Printed Mug">
+                        <input type="text" id="new-item-name" placeholder="e.g. Kids Serving Kidz Printed Mug">
                     </div>
                     <div class="form-group">
                         <label>Description</label>
@@ -155,12 +157,12 @@
     <script id="site-data-script">
         let siteData = {
             pin: "1234",
-            title: "TLG kids Store",
+            title: "Kids Serving Kidz",
             tagline: "Kids helping kids build a brighter future through education.",
-            mission: "TLG kids Store is a non-profit company run by kids, dedicated to raising funds to help children in the Dominican Republic afford and access continuing education. Every purchase directly supports educational opportunities and empowers young students to achieve their dreams.",
+            mission: "Kids Serving Kidz is a non-profit organization run by kids, dedicated to raising funds to help children in the Dominican Republic afford and access continuing education. Every purchase directly supports educational opportunities and empowers young students to achieve their dreams.",
             products: [
                 { id: 1, name: "Custom T-Shirt", desc: "100% Cotton shirt with custom DR print", price: 18.00, img: "" },
-                { id: 2, name: "TLG Cap", desc: "Adjustable baseball hat", price: 15.00, img: "" },
+                { id: 2, name: "Kids Serving Kidz Cap", desc: "Adjustable baseball hat", price: 15.00, img: "" },
                 { id: 3, name: "3D Printed Keychain", desc: "Custom designed 3D printed emblem", price: 5.00, img: "" }
             ]
         };
@@ -196,8 +198,12 @@
             });
         }
 
+        // Generate email link to orders@tlgkidzservingkidz.org
         function orderItem(name) {
-            alert(`To request "${name}", please contact us with your order details!`);
+            const recipient = "orders@tlgkidzservingkidz.org";
+            const subject = encodeURIComponent(`Order Inquiry: ${name}`);
+            const body = encodeURIComponent(`Hello Kids Serving Kidz Team,\n\nI would like to inquire about ordering: ${name}.\n\nPlease let me know how to proceed with payment and fulfillment.\n\nThank you!`);
+            window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
         }
 
         // Easter Egg Detection (5 clicks in 1.5s)
@@ -302,7 +308,7 @@
             let currentHTML = document.documentElement.outerHTML;
             const dataScriptRegex = /<script id="site-data-script">[\s\S]*?<\/script>/;
             const newScriptTag = `<script id="site-data-script">\n        let siteData = ${JSON.stringify(siteData, null, 12)};\n    <\/script>`;
-            
+
             const updatedHTML = "<!DOCTYPE html>\n" + currentHTML.replace(dataScriptRegex, newScriptTag);
 
             const pathParts = window.location.pathname.split('/').filter(p => p);
