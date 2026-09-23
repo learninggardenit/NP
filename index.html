@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Kids Serving Kidz | Store & Community</title>
     <style>
-        /* Modern Reset & Base Styles */
+        /* Base Styles */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
 
@@ -15,12 +15,12 @@
         h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
         .tagline { font-size: 1.25rem; max-width: 600px; margin: 0 auto; opacity: 0.95; }
 
-        /* Cart Floating Button */
-        .cart-float-btn { position: fixed; top: 1.5rem; right: 1.5rem; background: #f59e0b; color: #78350f; border: none; padding: 0.75rem 1.25rem; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 900; display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; }
+        /* Floating Shopping Cart Button */
+        .cart-float-btn { position: fixed; top: 1.5rem; right: 1.5rem; background: #f59e0b; color: #78350f; border: none; padding: 0.75rem 1.25rem; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 900; display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; }
         .cart-float-btn:hover { background: #d97706; color: white; }
         .cart-count-badge { background: #78350f; color: white; border-radius: 50%; padding: 0.1rem 0.5rem; font-size: 0.85rem; }
 
-        /* Layout Container */
+        /* Container Layout */
         .container { max-width: 1000px; margin: -1.5rem auto 2rem auto; padding: 0 1.5rem; width: 100%; flex: 1; }
         .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 2rem; }
         .card h2 { color: #0369a1; margin-bottom: 0.75rem; font-size: 1.5rem; }
@@ -40,15 +40,13 @@
         .add-cart-btn { background: #0284c7; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
         .add-cart-btn:hover { background: #0369a1; }
 
-        /* Modals (Cart & Admin) */
+        /* Modals */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 1rem; }
         .modal-content { background: white; border-radius: 12px; max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative; }
         .close-btn { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; border: none; background: none; }
         
-        /* Custom Notice Box */
         .custom-notice-box { background-color: #eff6ff; border-left: 4px solid #0284c7; padding: 0.8rem; border-radius: 4px; margin: 1rem 0; font-size: 0.9rem; color: #1e40af; }
 
-        /* Cart Items List Table */
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid #e2e8f0; }
         .cart-qty-controls { display: flex; align-items: center; gap: 0.5rem; }
         .cart-qty-btn { background: #e2e8f0; border: none; width: 24px; height: 24px; border-radius: 4px; font-weight: bold; cursor: pointer; }
@@ -75,7 +73,7 @@
         🛒 Cart <span class="cart-count-badge" id="cart-badge-count">0</span>
     </button>
 
-    <!-- Header (Click 5 times for Admin Mode) -->
+    <!-- Header (Click 5 times rapidly to open Admin Mode) -->
     <header id="site-header" title="Click 5 times for Admin Mode">
         <span class="badge">Non-Profit Organization</span>
         <h1 id="header-title">Kids Serving Kidz</h1>
@@ -94,7 +92,7 @@
         <!-- Store Grid -->
         <h2 class="section-title">Catalog & Store Items</h2>
         <div class="product-grid" id="product-grid">
-            <!-- Dynamic products render here -->
+            <!-- Products rendered dynamically -->
         </div>
     </div>
 
@@ -103,15 +101,13 @@
         <small>Questions or custom orders? Email us at <a href="mailto:orders@tlgkidzservingkidz.org">orders@tlgkidzservingkidz.org</a></small>
     </footer>
 
-    <!-- Shopping Cart & Checkout Modal -->
+    <!-- Cart Modal -->
     <div class="modal" id="cart-modal">
         <div class="modal-content">
             <button class="close-btn" id="close-cart-btn">&times;</button>
             <h2 style="color: #0284c7; margin-bottom: 1rem;">🛒 Your Shopping Cart</h2>
             
-            <div id="cart-items-container">
-                <!-- Cart items list dynamically inserted here -->
-            </div>
+            <div id="cart-items-container"></div>
 
             <div id="custom-item-notice" class="custom-notice-box" style="display: none;">
                 ℹ️ <strong>Custom Item Selected:</strong> Our sales department will email you after your order is submitted to collect your photo(s) or design preferences!
@@ -121,7 +117,7 @@
                 Total: <span id="cart-total-price" style="color: #0284c7;">$0.00</span>
             </div>
 
-            <!-- Customer Details Checkout Form -->
+            <!-- Checkout Form -->
             <form id="checkout-form" style="border-top: 1px solid #e2e8f0; padding-top: 1rem; margin-top: 1rem;">
                 <h3 style="margin-bottom: 0.75rem; color: #334155;">Customer & Shipping Info</h3>
                 <div class="form-group">
@@ -215,7 +211,7 @@
 
     <!-- Core Dynamic Data Container -->
     <script id="site-data-script">
-        let siteData = {
+        var siteData = {
             pin: "1234",
             title: "Kids Serving Kidz",
             tagline: "Kids helping kids build a brighter future through education.",
@@ -231,40 +227,42 @@
 
     <!-- App Functionality -->
     <script>
-        let cart = [];
+        var cart = [];
 
-        // Global functions accessible from HTML inline click attributes
         function addToCart(productId) {
-            const product = siteData.products.find(p => p.id === productId);
-            const existing = cart.find(item => item.id === productId);
+            var product = siteData.products.find(function(p) { return p.id === productId; });
+            var existing = cart.find(function(item) { return item.id === productId; });
             if (existing) {
                 existing.qty++;
             } else {
-                cart.push({ ...product, qty: 1 });
+                cart.push({ id: product.id, name: product.name, price: product.price, custom: product.custom, qty: 1 });
             }
             updateCartUI();
         }
 
         function changeQty(productId, delta) {
-            const item = cart.find(i => i.id === productId);
+            var item = cart.find(function(i) { return i.id === productId; });
             if (item) {
                 item.qty += delta;
                 if (item.qty <= 0) {
-                    cart = cart.filter(i => i.id !== productId);
+                    cart = cart.filter(function(i) { return i.id !== productId; });
                 }
             }
             updateCartUI();
         }
 
         function updateCartUI() {
-            const badge = document.getElementById('cart-badge-count');
-            const container = document.getElementById('cart-items-container');
-            const customNotice = document.getElementById('custom-item-notice');
-            const totalPrice = document.getElementById('cart-total-price');
+            var badge = document.getElementById('cart-badge-count');
+            var container = document.getElementById('cart-items-container');
+            var customNotice = document.getElementById('custom-item-notice');
+            var totalPrice = document.getElementById('cart-total-price');
 
-            if (!container || !badge) return;
+            if (!badge || !container) return;
 
-            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            var totalCount = 0;
+            for (var i = 0; i < cart.length; i++) {
+                totalCount += cart[i].qty;
+            }
             badge.textContent = totalCount;
 
             container.innerHTML = '';
@@ -276,31 +274,27 @@
                 return;
             }
 
-            let grandTotal = 0;
-            let hasCustomItem = false;
+            var grandTotal = 0;
+            var hasCustomItem = false;
 
-            cart.forEach(item => {
-                const itemTotal = item.price * item.qty;
+            cart.forEach(function(item) {
+                var itemTotal = item.price * item.qty;
                 grandTotal += itemTotal;
                 if (item.custom) hasCustomItem = true;
 
-                container.innerHTML += `
-                    <div class="cart-item-row">
-                        <div>
-                            <strong>${item.name}</strong> ${item.custom ? '<small style="color:#0284c7;">(Custom)</small>' : ''}<br>
-                            <small style="color:#64748b;">$${Number(item.price).toFixed(2)} each</small>
-                        </div>
-                        <div class="cart-qty-controls">
-                            <button class="cart-qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
-                            <span>${item.qty}</span>
-                            <button class="cart-qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
-                            <span style="font-weight:bold; min-width:60px; text-align:right;">$${itemTotal.toFixed(2)}</span>
-                        </div>
-                    </div>
-                `;
+                var customTagHtml = item.custom ? '<small style="color:#0284c7;">(Custom)</small>' : '';
+                container.innerHTML += '<div class="cart-item-row">' +
+                    '<div><strong>' + item.name + '</strong> ' + customTagHtml + '<br>' +
+                    '<small style="color:#64748b;">$' + Number(item.price).toFixed(2) + ' each</small></div>' +
+                    '<div class="cart-qty-controls">' +
+                    '<button class="cart-qty-btn" onclick="changeQty(' + item.id + ', -1)">-</button>' +
+                    '<span>' + item.qty + '</span>' +
+                    '<button class="cart-qty-btn" onclick="changeQty(' + item.id + ', 1)">+</button>' +
+                    '<span style="font-weight:bold; min-width:60px; text-align:right;">$' + itemTotal.toFixed(2) + '</span>' +
+                    '</div></div>';
             });
 
-            if (totalPrice) totalPrice.textContent = `$${grandTotal.toFixed(2)}`;
+            if (totalPrice) totalPrice.textContent = '$' + grandTotal.toFixed(2);
             if (customNotice) customNotice.style.display = hasCustomItem ? 'block' : 'none';
         }
 
@@ -309,27 +303,24 @@
             document.getElementById('header-tagline').textContent = siteData.tagline;
             document.getElementById('mission-text').textContent = siteData.mission;
 
-            const grid = document.getElementById('product-grid');
+            var grid = document.getElementById('product-grid');
             if (!grid) return;
-            
             grid.innerHTML = '';
-            siteData.products.forEach(p => {
-                const imgHtml = p.img ? `<img src="${p.img}" class="product-img" alt="${p.name}">` : `<div class="product-img">🛍️</div>`;
-                const customLabel = p.custom ? `<div class="custom-tag">📷 Customizable Photo Item</div>` : '';
-                grid.innerHTML += `
-                    <div class="product-card">
-                        ${imgHtml}
-                        <div class="product-info">
-                            <div class="product-title">${p.name}</div>
-                            <div class="product-desc">${p.desc}</div>
-                            ${customLabel}
-                            <div class="product-bottom">
-                                <span class="product-price">$${Number(p.price).toFixed(2)}</span>
-                                <button class="add-cart-btn" onclick="addToCart(${p.id})">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+
+            siteData.products.forEach(function(p) {
+                var imgHtml = p.img ? '<img src="' + p.img + '" class="product-img" alt="' + p.name + '">' : '<div class="product-img">🛍️</div>';
+                var customLabel = p.custom ? '<div class="custom-tag">📷 Customizable Photo Item</div>' : '';
+                
+                grid.innerHTML += '<div class="product-card">' +
+                    imgHtml +
+                    '<div class="product-info">' +
+                    '<div class="product-title">' + p.name + '</div>' +
+                    '<div class="product-desc">' + p.desc + '</div>' +
+                    customLabel +
+                    '<div class="product-bottom">' +
+                    '<span class="product-price">$' + Number(p.price).toFixed(2) + '</span>' +
+                    '<button class="add-cart-btn" onclick="addToCart(' + p.id + ')">Add to Cart</button>' +
+                    '</div></div></div>';
             });
         }
 
@@ -340,26 +331,32 @@
         }
 
         function renderAdminProductList() {
-            const list = document.getElementById('admin-item-list');
+            var list = document.getElementById('admin-item-list');
             if (!list) return;
             list.innerHTML = '';
-            siteData.products.forEach((p, index) => {
-                list.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
-                        <span><strong>${p.name}</strong> - $${Number(p.price).toFixed(2)} ${p.custom ? '📷' : ''}</span>
-                        <button class="btn btn-danger" onclick="deleteItem(${index})" style="padding:0.2rem 0.5rem; font-size:0.8rem;">Remove</button>
-                    </div>
-                `;
+            siteData.products.forEach(function(p, index) {
+                var customIcon = p.custom ? '📷' : '';
+                list.innerHTML += '<div style="display:flex; justify-content:space-between; align-items:center; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">' +
+                    '<span><strong>' + p.name + '</strong> - $' + Number(p.price).toFixed(2) + ' ' + customIcon + '</span>' +
+                    '<button class="btn btn-danger" onclick="deleteItem(' + index + ')" style="padding:0.2rem 0.5rem; font-size:0.8rem;">Remove</button>' +
+                    '</div>';
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        window.onload = function() {
             document.getElementById('year').textContent = new Date().getFullYear();
             
             renderSite();
             updateCartUI();
 
-            // Cart Modal Handlers
-            const cartModal = document.getElementById('cart-modal');
-            document.getElementById('open-cart-btn').addEventListener('click', () => {
-                updateCartUI()
+            // Modal Triggers
+            var cartModal = document.getElementById('cart-modal');
+            var adminModal = document.getElementById('admin-modal');
+
+            document.getElementById('open-cart-btn').onclick = function() {
+                updateCartUI();
+                cartModal.style.display = 'flex';
+            };
+
+            document.getElementById('close-cart-btn').onclick = function() {
+  
