@@ -106,7 +106,7 @@
     <!-- Shopping Cart & Checkout Modal -->
     <div class="modal" id="cart-modal">
         <div class="modal-content">
-            <button class="close-btn" onclick="closeCartModal()">&times;</button>
+            <button class="close-btn" id="close-cart-btn">&times;</button>
             <h2 style="color: #0284c7; margin-bottom: 1rem;">🛒 Your Shopping Cart</h2>
             
             <div id="cart-items-container">
@@ -144,7 +144,7 @@
     <!-- Hidden Admin Modal Interface -->
     <div class="modal" id="admin-modal">
         <div class="modal-content">
-            <button class="close-btn" id="close-modal">&times;</button>
+            <button class="close-btn" id="close-admin-modal">&times;</button>
             <h2 style="margin-bottom: 1rem; color: #0284c7;">⚙️ Store Admin Manager</h2>
 
             <div class="form-group" id="pin-container">
@@ -231,16 +231,87 @@
 
     <!-- App Functionality -->
     <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
         let cart = [];
 
-        // Render Public Store Grid
+        // Global functions accessible from HTML inline click attributes
+        function addToCart(productId) {
+            const product = siteData.products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            updateCartUI();
+        }
+
+        function changeQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    cart = cart.filter(i => i.id !== productId);
+                }
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cart-badge-count');
+            const container = document.getElementById('cart-items-container');
+            const customNotice = document.getElementById('custom-item-notice');
+            const totalPrice = document.getElementById('cart-total-price');
+
+            if (!container || !badge) return;
+
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.textContent = totalCount;
+
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b; padding:1rem;">Your cart is currently empty.</p>';
+                if (customNotice) customNotice.style.display = 'none';
+                if (totalPrice) totalPrice.textContent = '$0.00';
+                return;
+            }
+
+            let grandTotal = 0;
+            let hasCustomItem = false;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.qty;
+                grandTotal += itemTotal;
+                if (item.custom) hasCustomItem = true;
+
+                container.innerHTML += `
+                    <div class="cart-item-row">
+                        <div>
+                            <strong>${item.name}</strong> ${item.custom ? '<small style="color:#0284c7;">(Custom)</small>' : ''}<br>
+                            <small style="color:#64748b;">$${Number(item.price).toFixed(2)} each</small>
+                        </div>
+                        <div class="cart-qty-controls">
+                            <button class="cart-qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="cart-qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                            <span style="font-weight:bold; min-width:60px; text-align:right;">$${itemTotal.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (totalPrice) totalPrice.textContent = `$${grandTotal.toFixed(2)}`;
+            if (customNotice) customNotice.style.display = hasCustomItem ? 'block' : 'none';
+        }
+
         function renderSite() {
             document.getElementById('header-title').textContent = siteData.title;
             document.getElementById('header-tagline').textContent = siteData.tagline;
             document.getElementById('mission-text').textContent = siteData.mission;
 
             const grid = document.getElementById('product-grid');
+            if (!grid) return;
+            
             grid.innerHTML = '';
             siteData.products.forEach(p => {
                 const imgHtml = p.img ? `<img src="${p.img}" class="product-img" alt="${p.name}">` : `<div class="product-img">🛍️</div>`;
@@ -262,98 +333,33 @@
             });
         }
 
-        // Shopping Cart Logic
-        function addToCart(productId) {
-            const product = siteData.products.find(p => p.id === productId);
-            const existing = cart.find(item => item.id === productId);
-            if (existing) {
-                existing.qty++;
-            } else {
-                cart.push({ ...product, qty: 1 });
-            }
-            updateCartUI();
+        function deleteItem(index) {
+            siteData.products.splice(index, 1);
+            renderAdminProductList();
+            renderSite();
         }
 
-        function updateCartUI() {
-            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
-            document.getElementById('cart-badge-count').textContent = totalCount;
-
-            const container = document.getElementById('cart-items-container');
-            const customNotice = document.getElementById('custom-item-notice');
-            container.innerHTML = '';
-
-            if (cart.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:#64748b; padding:1rem;">Your cart is currently empty.</p>';
-                customNotice.style.display = 'none';
-                document.getElementById('cart-total-price').textContent = '$0.00';
-                return;
-            }
-
-            let grandTotal = 0;
-            let hasCustomItem = false;
-
-            cart.forEach(item => {
-                const itemTotal = item.price * item.qty;
-                grandTotal += itemTotal;
-                if (item.custom) hasCustomItem = true;
-
-                container.innerHTML += `
-                    <div class="cart-item-row">
-                        <div>
-                            <strong>${item.name}</strong> ${item.custom ? '<small style="color:#0284c7;">(Custom)</small>' : ''}<br>
-                            <small color="#64748b">$${Number(item.price).toFixed(2)} each</small>
-                        </div>
-                        <div class="cart-qty-controls">
-                            <button class="cart-qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
-                            <span>${item.qty}</span>
-                            <button class="cart-qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
-                            <span style="font-weight:bold; min-width:60px; text-align:right;">$${itemTotal.toFixed(2)}</span>
-                        </div>
+        function renderAdminProductList() {
+            const list = document.getElementById('admin-item-list');
+            if (!list) return;
+            list.innerHTML = '';
+            siteData.products.forEach((p, index) => {
+                list.innerHTML += `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
+                        <span><strong>${p.name}</strong> - $${Number(p.price).toFixed(2)} ${p.custom ? '📷' : ''}</span>
+                        <button class="btn btn-danger" onclick="deleteItem(${index})" style="padding:0.2rem 0.5rem; font-size:0.8rem;">Remove</button>
                     </div>
                 `;
             });
-
-            document.getElementById('cart-total-price').textContent = `$${grandTotal.toFixed(2)}`;
-            customNotice.style.display = hasCustomItem ? 'block' : 'none';
         }
 
-        function changeQty(productId, delta) {
-            const item = cart.find(i => i.id === productId);
-            if (item) {
-                item.qty += delta;
-                if (item.qty <= 0) {
-                    cart = cart.filter(i => i.id !== productId);
-                }
-            }
-            updateCartUI();
-        }
-
-        // Open & Close Cart Modal
-        document.getElementById('open-cart-btn').addEventListener('click', () => {
-            updateCartUI();
-            document.getElementById('cart-modal').style.display = 'flex';
-        });
-
-        function closeCartModal() {
-            document.getElementById('cart-modal').style.display = 'none';
-        }
-
-        // Submit Single Compiled Order via Mailto Draft
-        document.getElementById('checkout-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (cart.length === 0) return alert('Your cart is empty!');
-
-            const name = document.getElementById('cust-name').value.trim();
-            const email = document.getElementById('cust-email').value.trim();
-            const notes = document.getElementById('cust-notes').value.trim();
-
-            let orderItemsText = cart.map(i => `- ${i.qty}x ${i.name} ($${(i.price * i.qty).toFixed(2)})`).join('\n');
-            let hasCustom = cart.some(i => i.custom);
-
-            const recipient = "orders@tlgkidzservingkidz.org";
-            const subject = encodeURIComponent(`New Order Request from ${name}`);
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('year').textContent = new Date().getFullYear();
             
-            let bodyText = `Hello Kids Serving Kidz Team,\n\nI would like to place an order for the following items:\n\n${orderItemsText}\n\n`;
-            bodyText += `Total Price: ${document.getElementById('cart-total-price').textContent}\n\n`;
-            bodyText += `Customer Name: ${name}\n`;
-            bodyText += `Cust
+            renderSite();
+            updateCartUI();
+
+            // Cart Modal Handlers
+            const cartModal = document.getElementById('cart-modal');
+            document.getElementById('open-cart-btn').addEventListener('click', () => {
+                updateCartUI()
