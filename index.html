@@ -10,10 +10,15 @@
         body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
 
         /* Header / Hero Section */
-        header { background: linear-gradient(135deg, #0284c7, #0369a1); color: white; padding: 3rem 1.5rem; text-align: center; cursor: pointer; user-select: none; }
+        header { background: linear-gradient(135deg, #0284c7, #0369a1); color: white; padding: 3rem 1.5rem; text-align: center; cursor: pointer; user-select: none; position: relative; }
         .badge { background-color: #f59e0b; color: #78350f; padding: 0.3rem 0.8rem; border-radius: 9999px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; display: inline-block; margin-bottom: 1rem; }
         h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
         .tagline { font-size: 1.25rem; max-width: 600px; margin: 0 auto; opacity: 0.95; }
+
+        /* Cart Floating Button */
+        .cart-float-btn { position: fixed; top: 1.5rem; right: 1.5rem; background: #f59e0b; color: #78350f; border: none; padding: 0.75rem 1.25rem; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 900; display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; }
+        .cart-float-btn:hover { background: #d97706; color: white; }
+        .cart-count-badge { background: #78350f; color: white; border-radius: 50%; padding: 0.1rem 0.5rem; font-size: 0.85rem; }
 
         /* Layout Container */
         .container { max-width: 1000px; margin: -1.5rem auto 2rem auto; padding: 0 1.5rem; width: 100%; flex: 1; }
@@ -29,23 +34,33 @@
         .product-info { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
         .product-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 0.25rem; }
         .product-desc { font-size: 0.875rem; color: #64748b; margin-bottom: 0.75rem; flex: 1; }
+        .custom-tag { font-size: 0.75rem; color: #0284c7; font-weight: bold; margin-bottom: 0.5rem; }
         .product-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .product-price { font-weight: bold; color: #0284c7; font-size: 1.1rem; }
-        .order-btn { background: #0284c7; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; text-decoration: none; display: inline-block; }
-        .order-btn:hover { background: #0369a1; }
+        .add-cart-btn { background: #0284c7; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
+        .add-cart-btn:hover { background: #0369a1; }
 
-        /* Admin Modal Styling */
+        /* Modals (Cart & Admin) */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 1rem; }
-        .modal-content { background: white; border-radius: 12px; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative; }
+        .modal-content { background: white; border-radius: 12px; max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative; }
         .close-btn { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; border: none; background: none; }
+        
+        /* Custom Notice Box */
+        .custom-notice-box { background-color: #eff6ff; border-left: 4px solid #0284c7; padding: 0.8rem; border-radius: 4px; margin: 1rem 0; font-size: 0.9rem; color: #1e40af; }
+
+        /* Cart Items List Table */
+        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid #e2e8f0; }
+        .cart-qty-controls { display: flex; align-items: center; gap: 0.5rem; }
+        .cart-qty-btn { background: #e2e8f0; border: none; width: 24px; height: 24px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        
         .form-group { margin-bottom: 1rem; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 0.3rem; font-size: 0.9rem; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 6px; }
         .admin-section { border-top: 2px solid #e2e8f0; padding-top: 1rem; margin-top: 1.5rem; }
         .btn { padding: 0.5rem 1rem; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
-        .btn-primary { background: #0284c7; color: white; }
+        .btn-primary { background: #0284c7; color: white; width: 100%; padding: 0.75rem; font-size: 1rem; margin-top: 1rem; }
+        .btn-primary:hover { background: #0369a1; }
         .btn-danger { background: #ef4444; color: white; }
-        .btn-success { background: #22c55e; color: white; margin-top: 1rem; width: 100%; padding: 0.75rem; }
 
         /* Footer */
         footer { background-color: #0f172a; color: #94a3b8; text-align: center; padding: 1.5rem; font-size: 0.9rem; margin-top: auto; }
@@ -54,6 +69,11 @@
     </style>
 </head>
 <body>
+
+    <!-- Floating Shopping Cart Button -->
+    <button class="cart-float-btn" id="open-cart-btn">
+        🛒 Cart <span class="cart-count-badge" id="cart-badge-count">0</span>
+    </button>
 
     <!-- Header (Click 5 times for Admin Mode) -->
     <header id="site-header" title="Click 5 times for Admin Mode">
@@ -83,23 +103,58 @@
         <small>Questions or custom orders? Email us at <a href="mailto:orders@tlgkidzservingkidz.org">orders@tlgkidzservingkidz.org</a></small>
     </footer>
 
+    <!-- Shopping Cart & Checkout Modal -->
+    <div class="modal" id="cart-modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeCartModal()">&times;</button>
+            <h2 style="color: #0284c7; margin-bottom: 1rem;">🛒 Your Shopping Cart</h2>
+            
+            <div id="cart-items-container">
+                <!-- Cart items list dynamically inserted here -->
+            </div>
+
+            <div id="custom-item-notice" class="custom-notice-box" style="display: none;">
+                ℹ️ <strong>Custom Item Selected:</strong> Our sales department will email you after your order is submitted to collect your photo(s) or design preferences!
+            </div>
+
+            <div style="text-align: right; margin: 1rem 0; font-size: 1.25rem; font-weight: bold;">
+                Total: <span id="cart-total-price" style="color: #0284c7;">$0.00</span>
+            </div>
+
+            <!-- Customer Details Checkout Form -->
+            <form id="checkout-form" style="border-top: 1px solid #e2e8f0; padding-top: 1rem; margin-top: 1rem;">
+                <h3 style="margin-bottom: 0.75rem; color: #334155;">Customer & Shipping Info</h3>
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="cust-name" required placeholder="Jane Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" id="cust-email" required placeholder="jane@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Shipping Address / Notes</label>
+                    <textarea id="cust-notes" rows="2" placeholder="Street, City, Zip or special requests..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">📩 Submit Order Request</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Hidden Admin Modal Interface -->
     <div class="modal" id="admin-modal">
         <div class="modal-content">
             <button class="close-btn" id="close-modal">&times;</button>
             <h2 style="margin-bottom: 1rem; color: #0284c7;">⚙️ Store Admin Manager</h2>
 
-            <!-- Security PIN Auth Input -->
             <div class="form-group" id="pin-container">
                 <label>Enter Security PIN</label>
                 <input type="password" id="pin-input" placeholder="Enter 4-digit PIN (Default: 1234)">
-                <button class="btn btn-primary" id="unlock-btn" style="margin-top:0.5rem;">Unlock Controls</button>
+                <button class="btn btn-primary" id="unlock-btn" style="margin-top:0.5rem; width: auto;">Unlock Controls</button>
             </div>
 
-            <!-- Admin Editor Controls (Hidden until unlocked by PIN) -->
             <div id="admin-controls" style="display: none;">
                 <hr style="margin: 1rem 0;">
-
                 <h3>Site Configuration</h3>
                 <div class="form-group" style="margin-top: 0.5rem;">
                     <label>Store Title</label>
@@ -118,21 +173,27 @@
                     <h3>Add New Item</h3>
                     <div class="form-group" style="margin-top:0.5rem;">
                         <label>Item Name</label>
-                        <input type="text" id="new-item-name" placeholder="e.g. Kids Serving Kidz Printed Mug">
+                        <input type="text" id="new-item-name" placeholder="e.g. Custom Photo Tumbler">
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <input type="text" id="new-item-desc" placeholder="e.g. 11oz Ceramic Mug">
+                        <input type="text" id="new-item-desc" placeholder="e.g. 20oz Stainless Steel">
                     </div>
                     <div class="form-group">
                         <label>Price ($)</label>
-                        <input type="number" id="new-item-price" placeholder="12.00" step="0.01">
+                        <input type="number" id="new-item-price" placeholder="20.00" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="new-item-custom" style="width:auto; margin-right: 0.5rem;"> 
+                            Requires Custom Photo Submission
+                        </label>
                     </div>
                     <div class="form-group">
                         <label>Image URL</label>
                         <input type="text" id="new-item-img" placeholder="https://example.com/image.jpg">
                     </div>
-                    <button class="btn btn-primary" id="add-item-btn">Add Item to Grid</button>
+                    <button class="btn btn-primary" id="add-item-btn" style="width: auto;">Add Item to Grid</button>
                 </div>
 
                 <div class="admin-section">
@@ -145,9 +206,8 @@
                     <div class="form-group" style="margin-top:0.5rem;">
                         <label>GitHub Personal Access Token (PAT)</label>
                         <input type="password" id="github-token" placeholder="ghp_xxxxxxxxxxxx">
-                        <small style="color: #64748b; display:block; margin-top:0.25rem;">Saved locally in this browser only.</small>
                     </div>
-                    <button class="btn btn-success" id="publish-github-btn">🚀 Save & Publish Live Changes</button>
+                    <button class="btn btn-primary" id="publish-github-btn" style="background:#22c55e;">🚀 Save & Publish Live Changes</button>
                 </div>
             </div>
         </div>
@@ -161,18 +221,20 @@
             tagline: "Kids helping kids build a brighter future through education.",
             mission: "Kids Serving Kidz is a non-profit organization run by kids, dedicated to raising funds to help children in the Dominican Republic afford and access continuing education. Every purchase directly supports educational opportunities and empowers young students to achieve their dreams.",
             products: [
-                { id: 1, name: "Custom T-Shirt", desc: "100% Cotton shirt with custom DR print", price: 18.00, img: "" },
-                { id: 2, name: "Kids Serving Kidz Cap", desc: "Adjustable baseball hat", price: 15.00, img: "" },
-                { id: 3, name: "3D Printed Keychain", desc: "Custom designed 3D printed emblem", price: 5.00, img: "" }
+                { id: 1, name: "Custom T-Shirt", desc: "100% Cotton shirt with custom DR print", price: 18.00, custom: true, img: "" },
+                { id: 2, name: "Kids Serving Kidz Cap", desc: "Adjustable baseball hat", price: 15.00, custom: false, img: "" },
+                { id: 3, name: "3D Printed Keychain", desc: "Custom designed 3D printed emblem", price: 5.00, custom: false, img: "" },
+                { id: 4, name: "Custom Photo Mug", desc: "11oz Ceramic mug with personalized photo", price: 12.00, custom: true, img: "" }
             ]
         };
     </script>
 
-    <!-- Page Functionality & GitHub REST API Integration -->
+    <!-- App Functionality -->
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
+        let cart = [];
 
-        // Render Current Site Data
+        // Render Public Store Grid
         function renderSite() {
             document.getElementById('header-title').textContent = siteData.title;
             document.getElementById('header-tagline').textContent = siteData.tagline;
@@ -182,15 +244,17 @@
             grid.innerHTML = '';
             siteData.products.forEach(p => {
                 const imgHtml = p.img ? `<img src="${p.img}" class="product-img" alt="${p.name}">` : `<div class="product-img">🛍️</div>`;
+                const customLabel = p.custom ? `<div class="custom-tag">📷 Customizable Photo Item</div>` : '';
                 grid.innerHTML += `
                     <div class="product-card">
                         ${imgHtml}
                         <div class="product-info">
                             <div class="product-title">${p.name}</div>
                             <div class="product-desc">${p.desc}</div>
+                            ${customLabel}
                             <div class="product-bottom">
                                 <span class="product-price">$${Number(p.price).toFixed(2)}</span>
-                                <button class="order-btn" onclick="orderItem('${p.name}')">Inquire</button>
+                                <button class="add-cart-btn" onclick="addToCart(${p.id})">Add to Cart</button>
                             </div>
                         </div>
                     </div>
@@ -198,160 +262,98 @@
             });
         }
 
-        // Generate email link to orders@tlgkidzservingkidz.org
-        function orderItem(name) {
-            const recipient = "orders@tlgkidzservingkidz.org";
-            const subject = encodeURIComponent(`Order Inquiry: ${name}`);
-            const body = encodeURIComponent(`Hello Kids Serving Kidz Team,\n\nI would like to inquire about ordering: ${name}.\n\nPlease let me know how to proceed with payment and fulfillment.\n\nThank you!`);
-            window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
-        }
-
-        // Easter Egg Detection (5 clicks in 1.5s)
-        let clickCount = 0;
-        let clickTimer;
-        document.getElementById('site-header').addEventListener('click', () => {
-            clickCount++;
-            clearTimeout(clickTimer);
-            if (clickCount >= 5) {
-                clickCount = 0;
-                openAdminModal();
+        // Shopping Cart Logic
+        function addToCart(productId) {
+            const product = siteData.products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty++;
             } else {
-                clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
+                cart.push({ ...product, qty: 1 });
             }
-        });
-
-        // Modal Open/Close Controls
-        const modal = document.getElementById('admin-modal');
-        function openAdminModal() {
-            // Force re-authentication every time modal opens
-            document.getElementById('admin-controls').style.display = 'none';
-            document.getElementById('pin-input').value = '';
-            modal.style.display = 'flex';
+            updateCartUI();
         }
 
-        document.getElementById('close-modal').addEventListener('click', () => {
-            modal.style.display = 'none';
-            document.getElementById('admin-controls').style.display = 'none';
-            document.getElementById('pin-input').value = '';
-        });
+        function updateCartUI() {
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-badge-count').textContent = totalCount;
 
-        // Verify PIN
-        document.getElementById('unlock-btn').addEventListener('click', () => {
-            const enteredPin = document.getElementById('pin-input').value.trim();
-            if (enteredPin === siteData.pin) {
-                document.getElementById('admin-controls').style.display = 'block';
-                populateAdminFields();
-            } else {
-                alert('Incorrect PIN!');
+            const container = document.getElementById('cart-items-container');
+            const customNotice = document.getElementById('custom-item-notice');
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b; padding:1rem;">Your cart is currently empty.</p>';
+                customNotice.style.display = 'none';
+                document.getElementById('cart-total-price').textContent = '$0.00';
+                return;
             }
-        });
 
-        function populateAdminFields() {
-            document.getElementById('edit-title').value = siteData.title;
-            document.getElementById('edit-tagline').value = siteData.tagline;
-            document.getElementById('edit-mission').value = siteData.mission;
-            document.getElementById('github-token').value = localStorage.getItem('gh_token') || '';
-            renderAdminProductList();
-        }
+            let grandTotal = 0;
+            let hasCustomItem = false;
 
-        function renderAdminProductList() {
-            const list = document.getElementById('admin-item-list');
-            list.innerHTML = '';
-            siteData.products.forEach((p, index) => {
-                list.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
-                        <span><strong>${p.name}</strong> - $${Number(p.price).toFixed(2)}</span>
-                        <button class="btn btn-danger" onclick="deleteItem(${index})" style="padding:0.2rem 0.5rem; font-size:0.8rem;">Remove</button>
+            cart.forEach(item => {
+                const itemTotal = item.price * item.qty;
+                grandTotal += itemTotal;
+                if (item.custom) hasCustomItem = true;
+
+                container.innerHTML += `
+                    <div class="cart-item-row">
+                        <div>
+                            <strong>${item.name}</strong> ${item.custom ? '<small style="color:#0284c7;">(Custom)</small>' : ''}<br>
+                            <small color="#64748b">$${Number(item.price).toFixed(2)} each</small>
+                        </div>
+                        <div class="cart-qty-controls">
+                            <button class="cart-qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="cart-qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                            <span style="font-weight:bold; min-width:60px; text-align:right;">$${itemTotal.toFixed(2)}</span>
+                        </div>
                     </div>
                 `;
             });
+
+            document.getElementById('cart-total-price').textContent = `$${grandTotal.toFixed(2)}`;
+            customNotice.style.display = hasCustomItem ? 'block' : 'none';
         }
 
-        function deleteItem(index) {
-            siteData.products.splice(index, 1);
-            renderAdminProductList();
-            renderSite();
-        }
-
-        // Add Product to Memory
-        document.getElementById('add-item-btn').addEventListener('click', () => {
-            const name = document.getElementById('new-item-name').value;
-            const desc = document.getElementById('new-item-desc').value;
-            const price = parseFloat(document.getElementById('new-item-price').value) || 0;
-            const img = document.getElementById('new-item-img').value;
-
-            if (!name) return alert('Please enter an item name');
-
-            siteData.products.push({ id: Date.now(), name, desc, price, img });
-            renderAdminProductList();
-            renderSite();
-
-            document.getElementById('new-item-name').value = '';
-            document.getElementById('new-item-desc').value = '';
-            document.getElementById('new-item-price').value = '';
-            document.getElementById('new-item-img').value = '';
-        });
-
-        // Publish live to GitHub via REST API
-        document.getElementById('publish-github-btn').addEventListener('click', async () => {
-            const token = document.getElementById('github-token').value.trim();
-            if (!token) return alert('Please enter a GitHub Personal Access Token to publish live.');
-
-            localStorage.setItem('gh_token', token);
-
-            siteData.title = document.getElementById('edit-title').value;
-            siteData.tagline = document.getElementById('edit-tagline').value;
-            siteData.mission = document.getElementById('edit-mission').value;
-
-            renderSite();
-
-            let currentHTML = document.documentElement.outerHTML;
-            const dataScriptRegex = /<script id="site-data-script">[\s\S]*?<\/script>/;
-            const newScriptTag = `<script id="site-data-script">\n        let siteData = ${JSON.stringify(siteData, null, 12)};\n    <\/script>`;
-
-            const updatedHTML = "<!DOCTYPE html>\n" + currentHTML.replace(dataScriptRegex, newScriptTag);
-
-            const pathParts = window.location.pathname.split('/').filter(p => p);
-            const repoOwner = window.location.hostname.split('.')[0];
-            const repoName = pathParts[0] || 'NP';
-
-            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/index.html`;
-
-            try {
-                const getFileRes = await fetch(apiUrl, {
-                    headers: { 'Authorization': `token ${token}` }
-                });
-                const fileData = await getFileRes.json();
-                const sha = fileData.sha;
-
-                const updateRes = await fetch(apiUrl, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: 'Update store data via Front-End Admin',
-                        content: btoa(unescape(encodeURIComponent(updatedHTML))),
-                        sha: sha
-                    })
-                });
-
-                if (updateRes.ok) {
-                    alert('🎉 Success! Changes committed to GitHub. Your live site will update in ~1-2 minutes.');
-                    modal.style.display = 'none';
-                    document.getElementById('admin-controls').style.display = 'none';
-                } else {
-                    const err = await updateRes.json();
-                    alert(`Error publishing: ${err.message}`);
+        function changeQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    cart = cart.filter(i => i.id !== productId);
                 }
-            } catch (err) {
-                alert(`Failed to publish to GitHub: ${err.message}`);
             }
+            updateCartUI();
+        }
+
+        // Open & Close Cart Modal
+        document.getElementById('open-cart-btn').addEventListener('click', () => {
+            updateCartUI();
+            document.getElementById('cart-modal').style.display = 'flex';
         });
 
-        // Initialize Page
-        renderSite();
-    </script>
-</body>
-</html>
+        function closeCartModal() {
+            document.getElementById('cart-modal').style.display = 'none';
+        }
+
+        // Submit Single Compiled Order via Mailto Draft
+        document.getElementById('checkout-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (cart.length === 0) return alert('Your cart is empty!');
+
+            const name = document.getElementById('cust-name').value.trim();
+            const email = document.getElementById('cust-email').value.trim();
+            const notes = document.getElementById('cust-notes').value.trim();
+
+            let orderItemsText = cart.map(i => `- ${i.qty}x ${i.name} ($${(i.price * i.qty).toFixed(2)})`).join('\n');
+            let hasCustom = cart.some(i => i.custom);
+
+            const recipient = "orders@tlgkidzservingkidz.org";
+            const subject = encodeURIComponent(`New Order Request from ${name}`);
+            
+            let bodyText = `Hello Kids Serving Kidz Team,\n\nI would like to place an order for the following items:\n\n${orderItemsText}\n\n`;
+            bodyText += `Total Price: ${document.getElementById('cart-total-price').textContent}\n\n`;
+            bodyText += `Customer Name: ${name}\n`;
+            bodyText += `Cust
