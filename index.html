@@ -423,17 +423,32 @@
         });
 
         // Initialize Page
-        renderSite();
-        // Cart UI Toggles
-        const cartModal = document.getElementById('cart-modal');
-        
-        document.getElementById('open-cart-btn').addEventListener('click', () => {
-            cartModal.style.display = 'flex';
-        });
-        
-        document.getElementById('close-cart-btn').addEventListener('click', () => {
-            cartModal.style.display = 'none';
-        });
+              // Render Current Site Data
+        function renderSite() {
+            document.getElementById('header-title').textContent = siteData.title;
+            document.getElementById('header-tagline').textContent = siteData.tagline;
+            document.getElementById('mission-text').textContent = siteData.mission;
+
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+            siteData.products.forEach(p => {
+                const imgHtml = p.img ? `<img src="${p.img}" class="product-img" alt="${p.name}">` : `<div class="product-img">🛍️</div>`;
+                grid.innerHTML += `
+                    <div class="product-card">
+                        ${imgHtml}
+                        <div class="product-info">
+                            <div class="product-title">${p.name}</div>
+                            <div class="product-desc">${p.desc}</div>
+                            <div class="product-bottom">
+                                <span class="product-price">$${Number(p.price).toFixed(2)}</span>
+                                <!-- Changed from orderItem to addToCart -->
+                                <button class="order-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
     </script>
 </body>
