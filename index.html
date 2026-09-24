@@ -217,10 +217,7 @@
     <!-- Page Functionality & GitHub REST API Integration -->
        
     <script>
-        // --- Core Page Setup ---
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // --- Phase 2: Cart State Logic ---
+                // --- Phase 2: Cart State Logic ---
         let cart = [];
 
         function addToCart(productId) {
@@ -234,6 +231,7 @@
                 cart.push({ ...product, qty: 1 });
             }
             updateCartBadge();
+            renderCart(); // Tells the modal to update when an item is added
         }
 
         function updateCartBadge() {
@@ -243,6 +241,60 @@
                 badge.textContent = totalItems;
             }
         }
+
+        // --- Phase 3: Cart Rendering Logic ---
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const totalEl = document.getElementById('cart-total-price');
+            
+            // If empty, show default message
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b; padding:1rem;">Your cart is currently empty.</p>';
+                totalEl.textContent = '$0.00';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+
+            // Build HTML for each item in the cart
+            cart.forEach(item => {
+                const itemTotal = item.price * item.qty;
+                total += itemTotal;
+                
+                html += `
+                    <div class="cart-item-row">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <span style="color:#64748b; font-size:0.85rem;">$${item.price.toFixed(2)} each</span>
+                        </div>
+                        <div class="cart-qty-controls">
+                            <button class="cart-qty-btn" onclick="updateCartQty(${item.id}, -1)">-</button>
+                            <span style="width: 20px; text-align: center;">${item.qty}</span>
+                            <button class="cart-qty-btn" onclick="updateCartQty(${item.id}, 1)">+</button>
+                        </div>
+                        <div style="font-weight:bold; color:#0369a1;">$${itemTotal.toFixed(2)}</div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            totalEl.textContent = '$' + total.toFixed(2);
+        }
+
+        function updateCartQty(productId, change) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.qty += change;
+                // Remove item if quantity drops to 0
+                if (item.qty <= 0) {
+                    cart = cart.filter(i => i.id !== productId); 
+                }
+                updateCartBadge();
+                renderCart();
+            }
+        }
+
 
         // --- Phase 1: Cart UI Toggles ---
         const cartModal = document.getElementById('cart-modal');
