@@ -215,42 +215,55 @@
     </script>
 
     <!-- Page Functionality & GitHub REST API Integration -->
+       
     <script>
+        // --- Core Page Setup ---
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // --- Cart State Logic ---
+        // --- Phase 2: Cart State Logic ---
         let cart = [];
 
         function addToCart(productId) {
-            // Find the product in our site data
             const product = siteData.products.find(p => p.id === productId);
             if (!product) return;
 
-            // Check if it's already in the cart to increase quantity, otherwise add it
             const existingItem = cart.find(item => item.id === productId);
             if (existingItem) {
                 existingItem.qty++;
             } else {
                 cart.push({ ...product, qty: 1 });
             }
-
             updateCartBadge();
         }
 
         function updateCartBadge() {
             const badge = document.getElementById('cart-badge-count');
-            // Calculate total quantity of all items
-            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-            badge.textContent = totalItems;
+            if (badge) {
+                const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+                badge.textContent = totalItems;
+            }
         }
 
-        // Render Current Site Data
+        // --- Phase 1: Cart UI Toggles ---
+        const cartModal = document.getElementById('cart-modal');
+        
+        document.getElementById('open-cart-btn').addEventListener('click', () => {
+            cartModal.style.display = 'flex';
+        });
+        
+        document.getElementById('close-cart-btn').addEventListener('click', () => {
+            cartModal.style.display = 'none';
+        });
+
+        // --- Render Current Site Data ---
         function renderSite() {
             document.getElementById('header-title').textContent = siteData.title;
             document.getElementById('header-tagline').textContent = siteData.tagline;
             document.getElementById('mission-text').textContent = siteData.mission;
 
             const grid = document.getElementById('product-grid');
+            if (!grid) return;
+            
             grid.innerHTML = '';
             siteData.products.forEach(p => {
                 const imgHtml = p.img ? `<img src="${p.img}" class="product-img" alt="${p.name}">` : `<div class="product-img">🛍️</div>`;
@@ -262,7 +275,7 @@
                             <div class="product-desc">${p.desc}</div>
                             <div class="product-bottom">
                                 <span class="product-price">$${Number(p.price).toFixed(2)}</span>
-                                <button class="order-btn" onclick="orderItem('${p.name}')">Inquire</button>
+                                <button class="order-btn" onclick="addToCart(${p.id})">Add to Cart</button>
                             </div>
                         </div>
                     </div>
@@ -270,15 +283,7 @@
             });
         }
 
-        // Generate email link to orders@tlgkidzservingkidz.org
-        function orderItem(name) {
-            const recipient = "orders@tlgkidzservingkidz.org";
-            const subject = encodeURIComponent(`Order Inquiry: ${name}`);
-            const body = encodeURIComponent(`Hello Kids Serving Kidz Team,\n\nI would like to inquire about ordering: ${name}.\n\nPlease let me know how to proceed with payment and fulfillment.\n\nThank you!`);
-            window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
-        }
-
-        // Easter Egg Detection (5 clicks in 1.5s)
+        // --- Easter Egg Detection (5 clicks in 1.5s) ---
         let clickCount = 0;
         let clickTimer;
         document.getElementById('site-header').addEventListener('click', () => {
@@ -292,22 +297,21 @@
             }
         });
 
-        // Modal Open/Close Controls
-        const modal = document.getElementById('admin-modal');
+        // --- Admin Modal Open/Close Controls ---
+        const adminModal = document.getElementById('admin-modal');
         function openAdminModal() {
-            // Force re-authentication every time modal opens
             document.getElementById('admin-controls').style.display = 'none';
             document.getElementById('pin-input').value = '';
-            modal.style.display = 'flex';
+            adminModal.style.display = 'flex';
         }
 
         document.getElementById('close-modal').addEventListener('click', () => {
-            modal.style.display = 'none';
+            adminModal.style.display = 'none';
             document.getElementById('admin-controls').style.display = 'none';
             document.getElementById('pin-input').value = '';
         });
 
-        // Verify PIN
+        // --- Verify Admin PIN ---
         document.getElementById('unlock-btn').addEventListener('click', () => {
             const enteredPin = document.getElementById('pin-input').value.trim();
             if (enteredPin === siteData.pin) {
@@ -345,7 +349,7 @@
             renderSite();
         }
 
-        // Add Product to Memory
+        // --- Add Product to Memory ---
         document.getElementById('add-item-btn').addEventListener('click', () => {
             const name = document.getElementById('new-item-name').value;
             const desc = document.getElementById('new-item-desc').value;
@@ -364,7 +368,7 @@
             document.getElementById('new-item-img').value = '';
         });
 
-        // Publish live to GitHub via REST API
+        // --- Publish live to GitHub via REST API ---
         document.getElementById('publish-github-btn').addEventListener('click', async () => {
             const token = document.getElementById('github-token').value.trim();
             if (!token) return alert('Please enter a GitHub Personal Access Token to publish live.');
@@ -411,7 +415,7 @@
 
                 if (updateRes.ok) {
                     alert('🎉 Success! Changes committed to GitHub. Your live site will update in ~1-2 minutes.');
-                    modal.style.display = 'none';
+                    adminModal.style.display = 'none';
                     document.getElementById('admin-controls').style.display = 'none';
                 } else {
                     const err = await updateRes.json();
@@ -422,34 +426,9 @@
             }
         });
 
-        // Initialize Page
-              // Render Current Site Data
-        function renderSite() {
-            document.getElementById('header-title').textContent = siteData.title;
-            document.getElementById('header-tagline').textContent = siteData.tagline;
-            document.getElementById('mission-text').textContent = siteData.mission;
-
-            const grid = document.getElementById('product-grid');
-            grid.innerHTML = '';
-            siteData.products.forEach(p => {
-                const imgHtml = p.img ? `<img src="${p.img}" class="product-img" alt="${p.name}">` : `<div class="product-img">🛍️</div>`;
-                grid.innerHTML += `
-                    <div class="product-card">
-                        ${imgHtml}
-                        <div class="product-info">
-                            <div class="product-title">${p.name}</div>
-                            <div class="product-desc">${p.desc}</div>
-                            <div class="product-bottom">
-                                <span class="product-price">$${Number(p.price).toFixed(2)}</span>
-                                <!-- Changed from orderItem to addToCart -->
-                                <button class="order-btn" onclick="addToCart(${p.id})">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
+        // Initialize Page on Load
+        renderSite();
     </script>
+
 </body>
 </html>
