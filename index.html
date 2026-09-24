@@ -218,6 +218,32 @@
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
+        // --- Cart State Logic ---
+        let cart = [];
+
+        function addToCart(productId) {
+            // Find the product in our site data
+            const product = siteData.products.find(p => p.id === productId);
+            if (!product) return;
+
+            // Check if it's already in the cart to increase quantity, otherwise add it
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge-count');
+            // Calculate total quantity of all items
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.textContent = totalItems;
+        }
+
         // Render Current Site Data
         function renderSite() {
             document.getElementById('header-title').textContent = siteData.title;
