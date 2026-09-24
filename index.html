@@ -398,6 +398,17 @@
 
         // Initialize Page
         renderSite();
+        // Cart UI Toggles
+        const cartModal = document.getElementById('cart-modal');
+        
+        document.getElementById('open-cart-btn').addEventListener('click', () => {
+            cartModal.style.display = 'flex';
+        });
+        
+        document.getElementById('close-cart-btn').addEventListener('click', () => {
+            cartModal.style.display = 'none';
+        });
+
     </script>
 </body>
 </html>
