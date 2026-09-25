@@ -85,19 +85,26 @@
                 Total: <span id="cart-total-price" style="color: #0284c7;">$0.00</span>
             </div>
 
-            <!-- Checkout Form Placeholder -->
-            <form id="checkout-form" style="border-top: 1px solid #e2e8f0; padding-top: 1rem; margin-top: 1rem;">
-                <h3 style="margin-bottom: 0.75rem; color: #334155;">Customer Info</h3>
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" id="cust-name" required placeholder="Jane Doe">
-                </div>
-                <div class="form-group">
-                    <label>Email Address *</label>
-                    <input type="email" id="cust-email" required placeholder="jane@example.com">
-                </div>
-                <button type="button" class="btn btn-primary" style="width: 100%; margin-top: 1rem; padding: 0.75rem;">Next Step</button>
-            </form>
+            <!-- Checkout Form -->
+<form id="checkout-form" style="border-top: 1px solid #e2e8f0; padding-top: 1rem; margin-top: 1rem;" onsubmit="handleCheckout(event)">
+    <h3 style="margin-bottom: 0.75rem; color: #334155;">Customer & Fulfillment Info</h3>
+    <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" id="cust-name" required placeholder="Jane Doe">
+    </div>
+    <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" id="cust-email" required placeholder="jane@example.com">
+    </div>
+    <div class="form-group">
+        <label>Pickup Notes / Student Name & Grade *</label>
+        <textarea id="cust-notes" rows="2" required placeholder="e.g. Local pickup OR send home with Tommy Doe (3rd Grade)"></textarea>
+    </div>
+    <button type="submit" id="checkout-submit-btn" class="btn btn-primary" style="width: 100%; margin-top: 1rem; padding: 0.75rem;">
+        🚀 Send Order Request
+    </button>
+</form>
+
         </div>
     </div>
 
