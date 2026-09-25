@@ -489,6 +489,58 @@
         });
 
         // Initialize Page on Load
+        // --- EmailJS Integration ---
+        (function() {
+            emailjs.init("9BGClD4QksFe2sHZQ");
+        })();
+
+        async function handleCheckout(event) {
+            event.preventDefault();
+
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            const submitBtn = document.getElementById('checkout-submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Sending Order...";
+
+            // Format cart items into clean plain text for email
+            const orderItemsFormatted = cart.map(item => 
+                `${item.name} (Qty: ${item.qty}) - $${(item.price * item.qty).toFixed(2)}`
+            ).join('\n');
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            const templateParams = {
+                user_name: document.getElementById('cust-name').value,
+                user_email: document.getElementById('cust-email').value,
+                user_notes: document.getElementById('cust-notes').value,
+                order_details: orderItemsFormatted,
+                total_price: "$" + total.toFixed(2)
+            };
+
+            try {
+                await emailjs.send('service_rb28yk4', 'template_cyue366', templateParams);
+
+                alert("🎉 Thank you! Your order request has been sent. We will contact you shortly regarding pickup or student delivery!");
+                
+                // Reset cart & form on success
+                cart = [];
+                updateCartBadge();
+                renderCart();
+                document.getElementById('checkout-form').reset();
+                document.getElementById('cart-modal').style.display = 'none';
+
+            } catch (error) {
+                alert("Failed to send order. Error: " + JSON.stringify(error));
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "🚀 Send Order Request";
+            }
+        }
+
         renderSite();
     </script>
 
