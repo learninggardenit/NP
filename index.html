@@ -513,13 +513,19 @@
 
             const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
+                        const notesValue = document.getElementById('cust-notes').value || "None provided";
+
             const templateParams = {
                 user_name: document.getElementById('cust-name').value,
                 user_email: document.getElementById('cust-email').value,
-                user_notes: document.getElementById('cust-notes').value,
+                user_notes: notesValue,
+                notes: notesValue,       // Common template alias
+                message: notesValue,     // Common template alias
                 order_details: orderItemsFormatted,
                 total_price: "$" + total.toFixed(2)
             };
+
+           
 
             try {
                 await emailjs.send('service_rb28yk4', 'template_cyue366', templateParams);
