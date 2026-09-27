@@ -558,29 +558,32 @@
 
             const pathParts = window.location.pathname.split('/').filter(p => p);
             // REPLACE WITH THIS (Use your exact GitHub username):
-            const repoOwner = 'learninggardenit'; 
-            const repoName = 'NP';
+// REPLACE LINES 560-585 WITH THIS:
+const repoOwner = 'learninggardenit';
+const repoName = 'NP';
 
+const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/index.html`;
 
-            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/index.html`;
+try {
+  const getFileRes = await fetch(apiUrl, {
+    headers: { 'Authorization': `token ${token}` }
+  });
+  const fileData = await getFileRes.json();
+  const sha = fileData.sha;
 
-            try {
-                const getFileRes = await fetch(apiUrl, {
-                    headers: { 'Authorization': `token ${token}` }
-                });
-                const fileData = await getFileRes.json();
-                const sha = fileData.sha;
+  const updateRes = await fetch(apiUrl, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: 'Update store data via Front-End Admin',
+      content: btoa(unescape(encodeURIComponent(updatedHTML))),
+      sha: sha
+    })
+  });
 
-                const updateRes = await fetch(apiUrl, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: 'Update store data via Front-End Admin',
-                        content: btoa(unescape(encodeURIComponent(updatedHTML))),
-                        sha: sha
                     })
                 });
 
