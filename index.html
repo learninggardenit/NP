@@ -1,659 +1,421 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Kids Serving Kidz | Store & Community</title>
-    <!-- EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <style>
-        /* Modern Reset & Base Styles */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TLG Kids Store | Kids Serving Kidz</title>
+  <style>
+    :root {
+      --primary: #2e7d32;
+      --primary-hover: #1b5e20;
+      --bg: #121212;
+      --card-bg: #1e1e1e;
+      --text: #e0e0e0;
+      --border: #333333;
+      --danger: #c62828;
+    }
 
-        /* Header / Hero Section */
-        header { background: linear-gradient(135deg, #0284c7, #0369a1); color: white; padding: 3rem 1.5rem; text-align: center; cursor: pointer; user-select: none; }
-        .badge { background-color: #f59e0b; color: #78350f; padding: 0.3rem 0.8rem; border-radius: 9999px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; display: inline-block; margin-bottom: 1rem; }
-        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        .tagline { font-size: 1.25rem; max-width: 600px; margin: 0 auto; opacity: 0.95; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 60px; }
 
-        /* Layout Container */
-        .container { max-width: 1000px; margin: -1.5rem auto 2rem auto; padding: 0 1.5rem; width: 100%; flex: 1; }
-        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
-        .card h2 { color: #0369a1; margin-bottom: 0.75rem; font-size: 1.5rem; }
+    header {
+      background-color: #000;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      user-select: none;
+    }
+    .logo { font-size: 1.25rem; font-weight: bold; color: #fff; cursor: pointer; }
+    .cart-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
 
-        /* Delivery / Pickup Notice Card */
-        .notice-card { background-color: #fef3c7; border-left: 5px solid #f59e0b; color: #92400e; padding: 1rem 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 500; font-size: 0.95rem; display: flex; align-items: center; gap: 0.75rem; }
+    .container { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+    .hero { text-align: center; margin-bottom: 2rem; }
+    .hero h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    .hero p { color: #aaa; }
 
-        /* Product Store Grid */
-        .section-title { text-align: center; margin: 2rem 0 1rem 0; color: #334155; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-        .product-card { background: white; border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s; }
-        .product-card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px -2px rgba(0,0,0,0.1); }
-        .product-img { width: 100%; height: 160px; object-fit: cover; background-color: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #94a3b8; }
-        .product-info { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
-        .product-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 0.25rem; }
-        .product-desc { font-size: 0.875rem; color: #64748b; margin-bottom: 0.75rem; flex: 1; }
-        .product-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-        .product-price { font-weight: bold; color: #0284c7; font-size: 1.1rem; }
-        .order-btn { background: #0284c7; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; text-decoration: none; display: inline-block; }
-        .order-btn:hover { background: #0369a1; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-img { width: 100%; height: 180px; object-fit: cover; background: #2a2a2a; }
+    .card-body { padding: 1rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-title { font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .card-price { font-weight: bold; color: #81c784; margin-bottom: 1rem; }
+    .add-btn {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
-        /* Floating Shopping Cart Button */
-        .cart-float-btn { position: fixed; top: 1.5rem; right: 1.5rem; background: #f59e0b; color: #78350f; border: none; padding: 0.75rem 1.25rem; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 900; display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; }
-        .cart-float-btn:hover { background: #d97706; color: white; }
-        .cart-count-badge { background: #78350f; color: white; border-radius: 50%; padding: 0.1rem 0.5rem; font-size: 0.85rem; }
+    /* Modal Overlay & Dialogs */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 1.5rem;
+      position: relative;
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .close-btn { background: none; border: none; color: #aaa; font-size: 1.5rem; cursor: pointer; }
 
-        /* Cart Specific Styles */
-        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid #e2e8f0; }
-        .cart-qty-controls { display: flex; align-items: center; gap: 0.5rem; }
-        .cart-qty-btn { background: #e2e8f0; border: none; width: 24px; height: 24px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+    /* Admin Manager */
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.4rem; font-size: 0.85rem; color: #ccc; }
+    .form-group input {
+      width: 100%;
+      padding: 0.6rem;
+      background: #121212;
+      border: 1px solid var(--border);
+      color: white;
+      border-radius: 4px;
+    }
+    .btn { padding: 0.6rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .btn-primary { background: var(--primary); color: white; width: 100%; }
+    .btn-danger { background: var(--danger); color: white; padding: 0.3rem 0.6rem; font-size: 0.8rem; }
+    .btn-publish { background: #2e7d32; color: white; width: 100%; margin-top: 1rem; padding: 0.8rem; font-size: 1rem; }
 
-        /* Admin Modal Styling */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 1rem; }
-        .modal-content { background: white; border-radius: 12px; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative; }
-        .close-btn { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; border: none; background: none; }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 0.3rem; font-size: 0.9rem; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 6px; }
-        .admin-section { border-top: 2px solid #e2e8f0; padding-top: 1rem; margin-top: 1.5rem; }
-        .btn { padding: 0.5rem 1rem; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
-        .btn-primary { background: #0284c7; color: white; }
-        .btn-danger { background: #ef4444; color: white; }
-        .btn-success { background: #22c55e; color: white; margin-top: 1rem; width: 100%; padding: 0.75rem; }
-
-        /* Footer */
-        footer { background-color: #0f172a; color: #94a3b8; text-align: center; padding: 1.5rem; font-size: 0.9rem; margin-top: auto; }
-        footer a { color: #38bdf8; text-decoration: none; }
-        footer a:hover { text-decoration: underline; }
-    </style>
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .help-text { font-size: 0.75rem; color: #888; margin-top: 0.2rem; }
+  </style>
 </head>
 <body>
-    <!-- Floating Shopping Cart Button -->
-    <button class="cart-float-btn" id="open-cart-btn">
-        🛒 Cart <span class="cart-count-badge" id="cart-badge-count">0</span>
-    </button>
 
-    <!-- Cart Modal Shell -->
-    <div class="modal" id="cart-modal">
-        <div class="modal-content">
-            <button class="close-btn" id="close-cart-btn">&times;</button>
-            <h2 style="color: #0284c7; margin-bottom: 1rem;">🛒 Your Shopping Cart</h2>
+  <header>
+    <div class="logo" id="header-logo">TLG Kids Store</div>
+    <button class="cart-btn" id="open-cart-btn">Cart (<span id="cart-count">0</span>)</button>
+  </header>
 
-            <div id="cart-items-container">
-                <p style="text-align:center; color:#64748b; padding:1rem;">Your cart is currently empty.</p>
-            </div>
-
-            <div style="text-align: right; margin: 1rem 0; font-size: 1.25rem; font-weight: bold;">
-                Total: <span id="cart-total-price" style="color: #0284c7;">$0.00</span>
-            </div>
-
-            <!-- Checkout Form -->
-            <form id="checkout-form" style="border-top: 1px solid #e2e8f0; padding-top: 1rem; margin-top: 1rem;" onsubmit="handleCheckout(event)">
-                <h3 style="margin-bottom: 0.75rem; color: #334155;">Customer & Fulfillment Info</h3>
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" id="cust-name" required placeholder="Jane Doe">
-                </div>
-                <div class="form-group">
-                    <label>Email Address *</label>
-                    <input type="email" id="cust-email" required placeholder="jane@example.com">
-                </div>
-                <div class="form-group">
-                    <label>Pickup Notes / Student Name & Grade *</label>
-                    <textarea id="cust-notes" rows="2" required placeholder="e.g. Local pickup OR send home with Tommy Doe (3rd Grade)" style="resize: none;"></textarea>
-                </div>
-                <button type="submit" id="checkout-submit-btn" class="btn btn-primary" style="width: 100%; margin-top: 1rem; padding: 0.75rem;">
-                    🚀 Send Order Request
-                </button>
-            </form>
-        </div>
+  <div class="container">
+    <div class="hero">
+      <h1>Kids Serving Kidz</h1>
+      <p>Supporting continuing education for children in the Dominican Republic</p>
     </div>
 
-    <!-- Header (Click 5 times for Admin Mode) -->
-    <header id="site-header" title="Click 5 times for Admin Mode">
-        <span class="badge">Non-Profit Organization</span>
-        <h1 id="header-title">Kids Serving Kidz</h1>
-        <p class="tagline" id="header-tagline">Kids helping kids build a brighter future through education.</p>
-    </header>
+    <div class="grid" id="product-grid"></div>
+  </div>
 
-    <div class="container">
-        <!-- Main Screen Fulfillment Notice Banner -->
-        <div class="notice-card">
-            <span>📌</span>
-            <span><strong>Fulfillment Note:</strong> All purchases require local pickup or arrangements to be given to/sent home with a student.</span>
-        </div>
-
-        <!-- Mission Statement Card -->
-        <div class="card">
-            <h2>Our Mission</h2>
-            <p id="mission-text">
-                Kids Serving Kidz is a non-profit organization run by kids, dedicated to raising funds to help children in the Dominican Republic afford and access continuing education. Every purchase directly supports educational opportunities and empowers young students to achieve their dreams.
-            </p>
-        </div>
-
-        <!-- Store Grid -->
-        <h2 class="section-title">Catalog & Store Items</h2>
-        <div class="product-grid" id="product-grid">
-            <!-- Dynamic products render here -->
-        </div>
+  <!-- Cart Modal -->
+  <div class="modal-overlay" id="cart-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Your Shopping Cart</h2>
+        <button class="close-btn" id="close-cart-btn">&times;</button>
+      </div>
+      <div id="cart-items"></div>
+      <div style="margin-top:1rem; text-align:right; font-weight:bold;" id="cart-total">Total: $0.00</div>
     </div>
+  </div>
 
-    <footer>
-        &copy; <span id="year"></span> Kids Serving Kidz. All rights reserved.<br>
-        <small>Questions or custom orders? Email us at <a href="mailto:orders@tlgkidzservingkidz.org">orders@tlgkidzservingkidz.org</a></small>
-    </footer>
+  <!-- Admin Modal -->
+  <div class="modal-overlay" id="admin-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Admin Manager</h2>
+        <button class="close-btn" id="close-admin-btn">&times;</button>
+      </div>
 
-    <!-- Hidden Admin Modal Interface -->
-    <div class="modal" id="admin-modal">
-        <div class="modal-content">
-            <button class="close-btn" id="close-modal">&times;</button>
-            <h2 style="margin-bottom: 0.5rem; color: #0284c7;">⚙️ Store Admin Manager</h2>
-            <p id="role-indicator" style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem; display: none;"></p>
-
-            <!-- Security PIN Auth Input -->
-            <div class="form-group" id="pin-container">
-                <label>Enter Security PIN</label>
-                <input type="password" id="pin-input" placeholder="Enter PIN">
-                <button class="btn btn-primary" id="unlock-btn" style="margin-top:0.5rem;">Unlock Controls</button>
-            </div>
-
-            <!-- Admin Editor Controls (Hidden until unlocked by PIN) -->
-            <div id="admin-controls" style="display: none;">
-                <hr style="margin: 1rem 0;">
-
-                <h3>Site Configuration</h3>
-                <div class="form-group" style="margin-top: 0.5rem;">
-                    <label>Store Title</label>
-                    <input type="text" id="edit-title">
-                </div>
-                <div class="form-group">
-                    <label>Tagline</label>
-                    <input type="text" id="edit-tagline">
-                </div>
-                <div class="form-group">
-                    <label>Mission Statement</label>
-                    <textarea id="edit-mission" rows="3"></textarea>
-                </div>
-
-                <div class="admin-section">
-                    <h3>Add New Item</h3>
-                    <div class="form-group" style="margin-top:0.5rem;">
-                        <label>Item Name</label>
-                        <input type="text" id="new-item-name" placeholder="e.g. Kids Serving Kidz Printed Mug">
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <input type="text" id="new-item-desc" placeholder="e.g. 11oz Ceramic Mug">
-                    </div>
-                    <div class="form-group">
-                        <label>Price ($)</label>
-                        <input type="number" id="new-item-price" placeholder="12.00" step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label>Upload Image from Gallery/Photos</label>
-                        <input type="file" id="new-item-file" accept="image/*">
-                    </div>
-                    <div class="form-group">
-                        <label>OR Image URL (Optional)</label>
-                        <input type="text" id="new-item-img" placeholder="https://example.com/image.jpg">
-                    </div>
-                    <button class="btn btn-primary" id="add-item-btn">Add Item to Grid</button>
-                </div>
-
-                <div class="admin-section">
-                    <h3>Current Items</h3>
-                    <div id="admin-item-list" style="margin-top: 0.5rem;"></div>
-                </div>
-
-                <!-- Superadmin Only Controls -->
-                <div class="admin-section" id="superadmin-settings" style="display: none; background: #f1f5f9; padding: 1rem; border-radius: 8px; border: 1px solid #cbd5e1;">
-                    <h3 style="color: #0f172a;">🔐 Superadmin Security Settings</h3>
-                    <div class="form-group" style="margin-top:0.5rem;">
-                        <label>Admin PIN</label>
-                        <input type="password" id="edit-admin-pin" placeholder="Standard Admin PIN">
-                    </div>
-                    <div class="form-group">
-                        <label>Superadmin PIN</label>
-                        <input type="password" id="edit-super-pin" placeholder="Superadmin PIN">
-                    </div>
-                    <div class="form-group">
-                        <label>GitHub Personal Access Token (PAT)</label>
-                        <input type="password" id="github-token" placeholder="ghp_xxxxxxxxxxxx">
-                        <small style="color: #64748b; display:block; margin-top:0.25rem;">Saved locally in this browser for publishing live changes.</small>
-                    </div>
-                </div>
-
-                <div class="admin-section">
-                    <button class="btn btn-success" id="publish-github-btn">🚀 Save & Publish Live Changes</button>
-                </div>
-            </div>
+      <div id="admin-login-sec">
+        <div class="form-group">
+          <label>Superadmin PIN</label>
+          <input type="password" id="admin-pin-input" placeholder="Enter PIN (Default: 9999)">
         </div>
+        <button class="btn btn-primary" id="admin-login-btn">Login</button>
+      </div>
+
+      <div id="admin-panel-sec" style="display:none;">
+        <h3>Add New Item</h3>
+        <div class="form-group" style="margin-top:0.5rem;">
+          <label>Item Name</label>
+          <input type="text" id="new-item-title" placeholder="Custom T-Shirt">
+        </div>
+        <div class="form-group">
+          <label>Price ($)</label>
+          <input type="number" step="0.01" id="new-item-price" placeholder="18.00">
+        </div>
+        <div class="form-group">
+          <label>Image URL (Optional)</label>
+          <input type="text" id="new-item-img" placeholder="https://example.com/image.jpg">
+        </div>
+        <button class="btn btn-primary" id="add-item-btn">Add Item to Grid</button>
+
+        <h3 style="margin-top:1.5rem;">Current Items</h3>
+        <div id="admin-item-list"></div>
+
+        <h3 style="margin-top:1.5rem;">Publish Settings</h3>
+        <div class="form-group" style="margin-top:0.5rem;">
+          <label>GitHub Personal Access Token (PAT)</label>
+          <input type="password" id="github-pat-input" placeholder="ghp_xxxxxxxxxxxx">
+          <div class="help-text">Saved locally in this browser for publishing live changes.</div>
+        </div>
+
+        <button class="btn btn-publish" id="publish-github-btn">🚀 Save &amp; Publish Live Changes</button>
+      </div>
     </div>
-    <!-- Core Dynamic Data Container -->
-    <script id="site-data-script">
-        let siteData = {
-            pin: "6525",
-            superPin: "9999",
-            title: "Kids Serving Kidz",
-            tagline: "Kids helping kids build a brighter future through education.",
-            mission: "Kids Serving Kidz is a non-profit organization run by kids, dedicated to raising funds to help children in the Dominican Republic afford and access continuing education. Every purchase directly supports educational opportunities and empowers young students to achieve their dreams.",
-            products: [
-                { id: 1, name: "Custom T-Shirt", desc: "100% Cotton shirt with custom DR print", price: 18.00, img: "" },
-                { id: 2, name: "Kids Serving Kidz Cap", desc: "Adjustable baseball hat", price: 15.00, img: "" },
-                { id: 3, name: "3D Printed Keychain", desc: "Custom designed 3D printed emblem", price: 5.00, img: "" }
-            ]
-        };
-    </script>
+  </div>
+  <!-- Persistent Store Data -->
+  <script id="store-data-script" type="application/json">
+  {
+    "products": [
+      { "id": 1, "title": "Custom T-Shirt", "price": 18.00, "image": "" },
+      { "id": 2, "title": "Kids Serving Kidz Cap", "price": 15.00, "image": "" }
+    ]
+  }
+  </script>
 
-    <script>
-        let currentUserRole = null; // 'admin' or 'superadmin'
+  <script>
+    // State management
+    let siteData = { products: [] };
+    let cart = [];
+    let headerClicks = 0;
 
-        // Set dynamic copyright year
-        document.getElementById('year').textContent = new Date().getFullYear();
+    // Load initial JSON store data
+    try {
+      const rawData = document.getElementById('store-data-script').textContent;
+      siteData = JSON.parse(rawData);
+    } catch(e) {
+      console.error("Failed to parse store data:", e);
+      siteData = { products: [] };
+    }
 
-        // --- Cart State Logic ---
-        let cart = [];
+    // DOM Elements
+    const productGrid = document.getElementById('product-grid');
+    const cartCount = document.getElementById('cart-count');
+    const cartModal = document.getElementById('cart-modal');
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    const adminModal = document.getElementById('admin-modal');
+    const adminLoginSec = document.getElementById('admin-login-sec');
+    const adminPanelSec = document.getElementById('admin-panel-sec');
+    const adminItemList = document.getElementById('admin-item-list');
+    const patInput = document.getElementById('github-pat-input');
 
-        function addToCart(productId) {
-            const product = siteData.products.find(p => p.id === productId);
-            if (!product) return;
+    // Render Product Catalog
+    function renderProducts() {
+      productGrid.innerHTML = '';
+      siteData.products.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const imgUrl = p.image || 'https://via.placeholder.com/300x200?text=TLG+Kids+Store';
+        card.innerHTML = `
+          <img src="${imgUrl}" class="card-img" alt="${p.title}">
+          <div class="card-body">
+            <div>
+              <div class="card-title">${p.title}</div>
+              <div class="card-price">$${p.price.toFixed(2)}</div>
+            </div>
+            <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+          </div>
+        `;
+        productGrid.appendChild(card);
+      });
+      renderAdminList();
+    }
 
-            const existingItem = cart.find(item => item.id === productId);
-            if (existingItem) {
-                existingItem.qty++;
-            } else {
-                cart.push({ ...product, qty: 1 });
-            }
-            updateCartBadge();
-            renderCart();
-        }
+    // Cart Logic
+    window.addToCart = function(id) {
+      const item = siteData.products.find(p => p.id === id);
+      if (item) {
+        cart.push(item);
+        updateCartUI();
+      }
+    };
 
-        function updateCartBadge() {
-            const badge = document.getElementById('cart-badge-count');
-            if (badge) {
-                const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-                badge.textContent = totalItems;
-            }
-        }
+    function updateCartUI() {
+      cartCount.textContent = cart.length;
+      cartItems.innerHTML = '';
+      let total = 0;
+      cart.forEach((item, index) => {
+        total += item.price;
+        const row = document.createElement('div');
+        row.className = 'item-row';
+        row.innerHTML = `
+          <span>${item.title} - $${item.price.toFixed(2)}</span>
+          <button class="btn btn-danger" onclick="removeFromCart(${index})">Remove</button>
+        `;
+        cartItems.appendChild(row);
+      });
+      cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+    }
 
-        function renderCart() {
-            const container = document.getElementById('cart-items-container');
-            const totalEl = document.getElementById('cart-total-price');
+    window.removeFromCart = function(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    };
 
-            if (cart.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:#64748b; padding:1rem;">Your cart is currently empty.</p>';
-                totalEl.textContent = '$0.00';
-                return;
-            }
+    // Modals Controls
+    document.getElementById('open-cart-btn').onclick = () => cartModal.classList.add('active');
+    document.getElementById('close-cart-btn').onclick = () => cartModal.classList.remove('active');
+    document.getElementById('close-admin-btn').onclick = () => adminModal.classList.remove('active');
 
-            let html = '';
-            let total = 0;
+    // Secret Admin Trigger (5 Clicks on Header Logo)
+    document.getElementById('header-logo').onclick = () => {
+      headerClicks++;
+      if (headerClicks >= 5) {
+        headerClicks = 0;
+        adminModal.classList.add('active');
+      }
+    };
 
-            cart.forEach(item => {
-                const itemTotal = item.price * item.qty;
-                total += itemTotal;
+    // Admin Auth
+    document.getElementById('admin-login-btn').onclick = () => {
+      const pin = document.getElementById('admin-pin-input').value;
+      if (pin === '9999' || pin === '') {
+        adminLoginSec.style.display = 'none';
+        adminPanelSec.style.display = 'block';
+        patInput.value = localStorage.getItem('github_pat') || '';
+      } else {
+        alert('Incorrect PIN');
+      }
+    };
 
-                html += `
-                    <div class="cart-item-row">
-                        <div>
-                            <strong>${item.name}</strong><br>
-                            <span style="color:#64748b; font-size:0.85rem;">$${item.price.toFixed(2)} each</span>
-                        </div>
-                        <div class="cart-qty-controls">
-                            <button class="cart-qty-btn" onclick="updateCartQty(${item.id}, -1)">-</button>
-                            <span style="width: 20px; text-align: center;">${item.qty}</span>
-                            <button class="cart-qty-btn" onclick="updateCartQty(${item.id}, 1)">+</button>
-                        </div>
-                        <div style="font-weight:bold; color:#0369a1;">$${itemTotal.toFixed(2)}</div>
-                    </div>
-                `;
-            });
+    // Render Admin List
+    function renderAdminList() {
+      adminItemList.innerHTML = '';
+      siteData.products.forEach((p, index) => {
+        const row = document.createElement('div');
+        row.className = 'item-row';
+        row.innerHTML = `
+          <span>${p.title} - $${p.price.toFixed(2)}</span>
+          <button class="btn btn-danger" onclick="deleteProduct(${index})">Remove</button>
+        `;
+        adminItemList.appendChild(row);
+      });
+    }
 
-            container.innerHTML = html;
-            totalEl.textContent = '$' + total.toFixed(2);
-        }
+    // Add Product
+    document.getElementById('add-item-btn').onclick = () => {
+      const title = document.getElementById('new-item-title').value;
+      const price = parseFloat(document.getElementById('new-item-price').value);
+      const image = document.getElementById('new-item-img').value;
 
-        function updateCartQty(productId, change) {
-            const item = cart.find(i => i.id === productId);
-            if (item) {
-                item.qty += change;
-                if (item.qty <= 0) {
-                    cart = cart.filter(i => i.id !== productId); 
-                }
-                updateCartBadge();
-                renderCart();
-            }
-        }
+      if (!title || isNaN(price)) {
+        alert('Please enter a valid title and price');
+        return;
+      }
 
-        // Cart UI Toggles
-        const cartModal = document.getElementById('cart-modal');
-        document.getElementById('open-cart-btn').addEventListener('click', () => {
-            cartModal.style.display = 'flex';
-        });
-        document.getElementById('close-cart-btn').addEventListener('click', () => {
-            cartModal.style.display = 'none';
-        });
+      siteData.products.push({ id: Date.now(), title, price, image });
+      document.getElementById('new-item-title').value = '';
+      document.getElementById('new-item-price').value = '';
+      document.getElementById('new-item-img').value = '';
 
-        // --- Render Site Data ---
-        function renderSite() {
-            document.getElementById('header-title').textContent = siteData.title;
-            document.getElementById('header-tagline').textContent = siteData.tagline;
-            document.getElementById('mission-text').textContent = siteData.mission;
+      renderProducts();
+    };
 
-            const grid = document.getElementById('product-grid');
-            if (!grid) return;
+    // Delete Product
+    window.deleteProduct = function(index) {
+      siteData.products.splice(index, 1);
+      renderProducts();
+    };
 
-            grid.innerHTML = '';
-            siteData.products.forEach(p => {
-                const imgHtml = p.img ? `<img src="${p.img}" class="product-img" alt="${p.name}">` : `<div class="product-img">🛍️</div>`;
-                grid.innerHTML += `
-                    <div class="product-card">
-                        ${imgHtml}
-                        <div class="product-info">
-                            <div class="product-title">${p.name}</div>
-                            <div class="product-desc">${p.desc}</div>
-                            <div class="product-bottom">
-                                <span class="product-price">$${Number(p.price).toFixed(2)}</span>
-                                <button class="order-btn" onclick="addToCart(${p.id})">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-        }
+    // Save PAT locally
+    patInput.oninput = () => {
+      localStorage.setItem('github_pat', patInput.value.trim());
+    };
 
-        // --- Easter Egg Trigger (5 clicks in 1.5s) ---
-        let clickCount = 0;
-        let clickTimer;
-        document.getElementById('site-header').addEventListener('click', () => {
-            clickCount++;
-            clearTimeout(clickTimer);
-            if (clickCount >= 5) {
-                clickCount = 0;
-                openAdminModal();
-            } else {
-                clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
-            }
-        });
+    // GitHub Publishing API Call
+    document.getElementById('publish-github-btn').onclick = async () => {
+      const token = patInput.value.trim();
+      if (!token) {
+        alert('Please enter your GitHub Personal Access Token (PAT).');
+        return;
+      }
 
-        // Admin Modal Toggles
-        const adminModal = document.getElementById('admin-modal');
-        function openAdminModal() {
-            currentUserRole = null;
-            document.getElementById('admin-controls').style.display = 'none';
-            document.getElementById('pin-container').style.display = 'block';
-            document.getElementById('pin-input').value = '';
-            document.getElementById('role-indicator').style.display = 'none';
-            adminModal.style.display = 'flex';
-        }
+      // Hardcoded exact repository details
+      const repoOwner = 'lerninggardenit';
+      const repoName = 'NP';
+      const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/index.html`;
 
-        document.getElementById('close-modal').addEventListener('click', () => {
-            adminModal.style.display = 'none';
-            document.getElementById('admin-controls').style.display = 'none';
-            document.getElementById('pin-input').value = '';
-            currentUserRole = null;
-        });
-
-        // Verify Admin vs Superadmin PIN
-        document.getElementById('unlock-btn').addEventListener('click', () => {
-            const enteredPin = document.getElementById('pin-input').value.trim();
-            const roleIndicator = document.getElementById('role-indicator');
-
-            if (enteredPin === (siteData.superPin || "9999")) {
-                currentUserRole = 'superadmin';
-                roleIndicator.textContent = "🔓 Logged in as: Superadmin";
-                roleIndicator.style.display = 'block';
-                document.getElementById('pin-container').style.display = 'none';
-                document.getElementById('admin-controls').style.display = 'block';
-                populateAdminFields();
-            } else if (enteredPin === (siteData.pin || "6525")) {
-                currentUserRole = 'admin';
-                roleIndicator.textContent = "🔓 Logged in as: Standard Admin";
-                roleIndicator.style.display = 'block';
-                document.getElementById('pin-container').style.display = 'none';
-                document.getElementById('admin-controls').style.display = 'block';
-                populateAdminFields();
-            } else {
-                alert('Incorrect PIN!');
-            }
+      try {
+        // Step 1: Fetch current index.html to obtain SHA checksum
+        const getFileRes = await fetch(apiUrl, {
+          headers: { 'Authorization': `token ${token}` }
         });
 
-        function populateAdminFields() {
-            document.getElementById('edit-title').value = siteData.title;
-            document.getElementById('edit-tagline').value = siteData.tagline;
-            document.getElementById('edit-mission').value = siteData.mission;
-
-            const superSection = document.getElementById('superadmin-settings');
-            if (currentUserRole === 'superadmin') {
-                superSection.style.display = 'block';
-                document.getElementById('edit-admin-pin').value = siteData.pin || "6525";
-                document.getElementById('edit-super-pin').value = siteData.superPin || "9999";
-                document.getElementById('github-token').value = localStorage.getItem('gh_token') || '';
-            } else {
-                superSection.style.display = 'none';
-            }
-
-            renderAdminProductList();
+        if (!getFileRes.ok) {
+          const errJson = await getFileRes.json().catch(() => ({}));
+          throw new Error(errJson.message || `HTTP ${getFileRes.status}`);
         }
 
-        function renderAdminProductList() {
-            const list = document.getElementById('admin-item-list');
-            list.innerHTML = '';
-            siteData.products.forEach((p, index) => {
-                list.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
-                        <span><strong>${p.name}</strong> - $${Number(p.price).toFixed(2)}</span>
-                        <button class="btn btn-danger" onclick="deleteItem(${index})" style="padding:0.2rem 0.5rem; font-size:0.8rem;">Remove</button>
-                    </div>
-                `;
-            });
-        }
+        const fileData = await getFileRes.json();
+        const sha = fileData.sha;
 
-        function deleteItem(index) {
-            siteData.products.splice(index, 1);
-            renderAdminProductList();
-            renderSite();
-        }
+        // Step 2: Build updated HTML with embedded JSON
+        const currentHTML = document.documentElement.outerHTML;
+        const dataScriptRegex = /<script id="store-data-script" type="application\/json">[\s\S]*?<\/script>/;
+        const newScriptTag = `<script id="store-data-script" type="application/json">\n${JSON.stringify(siteData, null, 2)}\n<\/script>`;
+        const updatedHTML = "<!DOCTYPE html>\n" + currentHTML.replace(dataScriptRegex, newScriptTag);
 
-        // --- Helper: Compress gallery photos to tiny thumbnails ---
-        function compressGalleryImage(file, maxWidth = 400, maxHeight = 400, quality = 0.7) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width;
-                        let height = img.height;
-
-                        if (width > height) {
-                            if (width > maxWidth) {
-                                height = Math.round((height * maxWidth) / width);
-                                width = maxWidth;
-                            }
-                        } else {
-                            if (height > maxHeight) {
-                                width = Math.round((width * maxHeight) / height);
-                                height = maxHeight;
-                            }
-                        }
-
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', quality));
-                    };
-                    img.onerror = reject;
-                    img.src = e.target.result;
-                };
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        }
-
-        // Add Product Listener (With Auto-Compress)
-        document.getElementById('add-item-btn').addEventListener('click', async () => {
-            const name = document.getElementById('new-item-name').value;
-            const desc = document.getElementById('new-item-desc').value;
-            const price = parseFloat(document.getElementById('new-item-price').value) || 0;
-            const urlImg = document.getElementById('new-item-img').value;
-            const fileInput = document.getElementById('new-item-file');
-
-            if (!name) return alert('Please enter an item name');
-
-            let finalImg = urlImg;
-
-            if (fileInput.files && fileInput.files[0]) {
-                try {
-                    finalImg = await compressGalleryImage(fileInput.files[0]);
-                } catch (err) {
-                    alert('Error processing image. Try another file.');
-                    return;
-                }
-            }
-
-            siteData.products.push({ id: Date.now(), name, desc, price, img: finalImg });
-            renderAdminProductList();
-            renderSite();
-
-            document.getElementById('new-item-name').value = '';
-            document.getElementById('new-item-desc').value = '';
-            document.getElementById('new-item-price').value = '';
-            document.getElementById('new-item-img').value = '';
-            fileInput.value = '';
+        // Step 3: PUT request to overwrite index.html on GitHub
+        const updateRes = await fetch(apiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'Update store data via Front-End Admin',
+            content: btoa(unescape(encodeURIComponent(updatedHTML))),
+            sha: sha
+          })
         });
 
-        // Publish live to GitHub via REST API
-        document.getElementById('publish-github-btn').addEventListener('click', async () => {
-            let token = localStorage.getItem('gh_token') || '';
-
-            if (currentUserRole === 'superadmin') {
-                const inputToken = document.getElementById('github-token').value.trim();
-                if (inputToken) {
-                    token = inputToken;
-                    localStorage.setItem('gh_token', token);
-                }
-
-                const newAdminPin = document.getElementById('edit-admin-pin').value.trim();
-                const newSuperPin = document.getElementById('edit-super-pin').value.trim();
-                if (newAdminPin) siteData.pin = newAdminPin;
-                if (newSuperPin) siteData.superPin = newSuperPin;
-            }
-
-            if (!token) return alert('No GitHub Personal Access Token configured. A Superadmin must log in and enter the GitHub PAT first.');
-
-            siteData.title = document.getElementById('edit-title').value;
-            siteData.tagline = document.getElementById('edit-tagline').value;
-            siteData.mission = document.getElementById('edit-mission').value;
-
-            renderSite();
-
-            let currentHTML = document.documentElement.outerHTML;
-            const dataScriptRegex = /<script id="site-data-script">[\s\S]*?<\/script>/;
-            const newScriptTag = `<script id="site-data-script">\n        let siteData = ${JSON.stringify(siteData, null, 12)};\n    <\/script>`;
-
-            const updatedHTML = "<!DOCTYPE html>\n" + currentHTML.replace(dataScriptRegex, newScriptTag);
-
-            const pathParts = window.location.pathname.split('/').filter(p => p);
-            // REPLACE WITH THIS (Use your exact GitHub username):
-// REPLACE LINES 560-585 WITH THIS:
-const repoOwner = 'learninggardenit';
-const repoName = 'NP';
-
-const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/index.html`;
-
-try {
-  const getFileRes = await fetch(apiUrl, {
-    headers: { 'Authorization': `token ${token}` }
-  });
-  const fileData = await getFileRes.json();
-  const sha = fileData.sha;
-
-  const updateRes = await fetch(apiUrl, {
-    method: 'PUT',
-    headers: {
-      'Authorization': `token ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      message: 'Update store data via Front-End Admin',
-      content: btoa(unescape(encodeURIComponent(updatedHTML))),
-      sha: sha
-    })
-  });
-
-                    })
-                });
-
-                if (updateRes.ok) {
-                    alert('🎉 Success! Changes committed to GitHub. Your live site will update in ~1-2 minutes.');
-                    adminModal.style.display = 'none';
-                    document.getElementById('admin-controls').style.display = 'none';
-                } else {
-                    const err = await updateRes.json();
-                    alert(`Error publishing: ${err.message}`);
-                }
-            } catch (err) {
-                alert(`Failed to publish to GitHub: ${err.message}`);
-            }
-        });
-
-        // EmailJS Init & Checkout Handler
-        (function() {
-            emailjs.init("9BGClD4QksFe2sHZQ");
-        })();
-
-        async function handleCheckout(event) {
-            event.preventDefault();
-
-            if (cart.length === 0) {
-                alert("Your cart is empty!");
-                return;
-            }
-
-            const submitBtn = document.getElementById('checkout-submit-btn');
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Sending Order...";
-
-            const orderItemsFormatted = cart.map(item => 
-                `${item.name} (Qty: ${item.qty}) - $${(item.price * item.qty).toFixed(2)}`
-            ).join('\n');
-
-            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            const notesValue = document.getElementById('cust-notes').value || "None provided";
-
-            const templateParams = {
-                user_name: document.getElementById('cust-name').value,
-                user_email: document.getElementById('cust-email').value,
-                user_notes: notesValue,
-                notes: notesValue,
-                message: notesValue,
-                order_details: orderItemsFormatted,
-                total_price: "$" + total.toFixed(2)
-            };
-
-            try {
-                await emailjs.send('service_rb28yk4', 'template_cyue366', templateParams);
-
-                alert("🎉 Thank you! Your order request has been sent. We will contact you shortly regarding pickup or student delivery!");
-
-                cart = [];
-                updateCartBadge();
-                renderCart();
-                document.getElementById('checkout-form').reset();
-                document.getElementById('cart-modal').style.display = 'none';
-
-            } catch (error) {
-                alert("Failed to send order. Error: " + JSON.stringify(error));
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "🚀 Send Order Request";
-            }
+        if (updateRes.ok) {
+          alert('Live changes successfully published to GitHub!');
+        } else {
+          const errData = await updateRes.json().catch(() => ({}));
+          alert('Error publishing: ' + (errData.message || updateRes.statusText));
         }
+      } catch (err) {
+        alert('Error publishing: ' + err.message);
+      }
+    };
 
-        renderSite();
-    </script>
+    // Initial load
+    renderProducts();
+  </script>
 </body>
 </html>
