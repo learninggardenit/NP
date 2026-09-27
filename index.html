@@ -74,7 +74,7 @@
     </button>
 
     <!-- Cart Modal Shell -->
-    <div class="modal" id="cart-modal">
+    <div class="modal" id="cart-modal" style="display: none;">
         <div class="modal-content">
             <button class="close-btn" id="close-cart-btn">×</button>
             <h2 style="color: #0284c7; margin-bottom: 1rem;">🛒 Your Shopping Cart</h2>
@@ -180,7 +180,7 @@
         <div class="modal-content">
             <button class="close-btn" id="close-modal">×</button>
             <h2 style="margin-bottom: 0.5rem; color: #0284c7;">⚙️ Store Admin Manager</h2>
-            <p id="role-indicator" style="font-size: 0.85rem; color: rgb(100, 116, 139); margin-bottom: 1rem; display: block;">🔓 Logged in as: Superadmin</p>
+            <p id="role-indicator" style="font-size: 0.85rem; color: rgb(100, 116, 139); margin-bottom: 1rem; display: block;">🔓 Logged in as: Standard Admin</p>
 
             <!-- Security PIN Auth Input -->
             <div class="form-group" id="pin-container" style="display: none;">
@@ -253,7 +253,7 @@
                 </div>
 
                 <!-- Superadmin Only Controls -->
-                <div class="admin-section" id="superadmin-settings" style="display: block; background: rgb(241, 245, 249); padding: 1rem; border-radius: 8px; border: 1px solid rgb(203, 213, 225);">
+                <div class="admin-section" id="superadmin-settings" style="display: none; background: rgb(241, 245, 249); padding: 1rem; border-radius: 8px; border: 1px solid rgb(203, 213, 225);">
                     <h3 style="color: #0f172a;">🔐 Superadmin Security Settings</h3>
                     <div class="form-group" style="margin-top:0.5rem;">
                         <label>Admin PIN</label>
