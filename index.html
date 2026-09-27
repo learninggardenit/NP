@@ -557,8 +557,10 @@
             const updatedHTML = "<!DOCTYPE html>\n" + currentHTML.replace(dataScriptRegex, newScriptTag);
 
             const pathParts = window.location.pathname.split('/').filter(p => p);
-            const repoOwner = window.location.hostname.split('.')[0];
-            const repoName = pathParts[0] || 'NP';
+            // REPLACE WITH THIS (Use your exact GitHub username):
+const repoOwner = 'learninggarden'; 
+const repoName = 'NP';
+
 
             const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/index.html`;
 
