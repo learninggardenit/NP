@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Kids Serving Kidz | Store &amp; Community</title>
+    <title id="page-title">Kids Serving Kidz | Store & Community</title>
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
@@ -74,9 +75,9 @@
     </button>
 
     <!-- Cart Modal Shell -->
-    <div class="modal" id="cart-modal" style="display: none;">
+    <div class="modal" id="cart-modal">
         <div class="modal-content">
-            <button class="close-btn" id="close-cart-btn">×</button>
+            <button class="close-btn" id="close-cart-btn">&times;</button>
             <h2 style="color: #0284c7; margin-bottom: 1rem;">🛒 Your Shopping Cart</h2>
 
             <div id="cart-items-container">
@@ -89,18 +90,18 @@
 
             <!-- Checkout Form -->
             <form id="checkout-form" style="border-top: 1px solid #e2e8f0; padding-top: 1rem; margin-top: 1rem;" onsubmit="handleCheckout(event)">
-                <h3 style="margin-bottom: 0.75rem; color: #334155;">Customer &amp; Fulfillment Info</h3>
+                <h3 style="margin-bottom: 0.75rem; color: #334155;">Customer & Fulfillment Info</h3>
                 <div class="form-group">
                     <label>Full Name *</label>
-                    <input type="text" id="cust-name" required="" placeholder="Jane Doe">
+                    <input type="text" id="cust-name" required placeholder="Jane Doe">
                 </div>
                 <div class="form-group">
                     <label>Email Address *</label>
-                    <input type="email" id="cust-email" required="" placeholder="jane@example.com">
+                    <input type="email" id="cust-email" required placeholder="jane@example.com">
                 </div>
                 <div class="form-group">
-                    <label>Pickup Notes / Student Name &amp; Grade *</label>
-                    <textarea id="cust-notes" rows="2" required="" placeholder="e.g. Local pickup OR send home with Tommy Doe (3rd Grade)" style="resize: none;"></textarea>
+                    <label>Pickup Notes / Student Name & Grade *</label>
+                    <textarea id="cust-notes" rows="2" required placeholder="e.g. Local pickup OR send home with Tommy Doe (3rd Grade)" style="resize: none;"></textarea>
                 </div>
                 <button type="submit" id="checkout-submit-btn" class="btn btn-primary" style="width: 100%; margin-top: 1rem; padding: 0.75rem;">
                     🚀 Send Order Request
@@ -126,71 +127,39 @@
         <!-- Mission Statement Card -->
         <div class="card">
             <h2>Our Mission</h2>
-            <p id="mission-text">Kids Serving Kidz is a non-profit organization run by kids, dedicated to raising funds to help children in the Dominican Republic afford and access continuing education. Every purchase directly supports educational opportunities and empowers young students to achieve their dreams.</p>
+            <p id="mission-text">
+                Kids Serving Kidz is a non-profit organization run by kids, dedicated to raising funds to help children in the Dominican Republic afford and access continuing education. Every purchase directly supports educational opportunities and empowers young students to achieve their dreams.
+            </p>
         </div>
 
         <!-- Store Grid -->
-        <h2 class="section-title">Catalog &amp; Store Items</h2>
+        <h2 class="section-title">Catalog & Store Items</h2>
         <div class="product-grid" id="product-grid">
-                    <div class="product-card">
-                        <div class="product-img">🛍️</div>
-                        <div class="product-info">
-                            <div class="product-title">Custom T-Shirt</div>
-                            <div class="product-desc">100% Cotton shirt with custom DR print</div>
-                            <div class="product-bottom">
-                                <span class="product-price">$18.00</span>
-                                <button class="order-btn" onclick="addToCart(1)">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="product-card">
-                        <div class="product-img">🛍️</div>
-                        <div class="product-info">
-                            <div class="product-title">Kids Serving Kidz Cap</div>
-                            <div class="product-desc">Adjustable baseball hat</div>
-                            <div class="product-bottom">
-                                <span class="product-price">$15.00</span>
-                                <button class="order-btn" onclick="addToCart(2)">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="product-card">
-                        <div class="product-img">🛍️</div>
-                        <div class="product-info">
-                            <div class="product-title">3D Printed Keychain</div>
-                            <div class="product-desc">Custom designed 3D printed emblem</div>
-                            <div class="product-bottom">
-                                <span class="product-price">$5.00</span>
-                                <button class="order-btn" onclick="addToCart(3)">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Dynamic products render here -->
+        </div>
     </div>
 
     <footer>
-        © <span id="year">2026</span> Kids Serving Kidz. All rights reserved.<br>
+        &copy; <span id="year"></span> Kids Serving Kidz. All rights reserved.<br>
         <small>Questions or custom orders? Email us at <a href="mailto:orders@tlgkidzservingkidz.org">orders@tlgkidzservingkidz.org</a></small>
     </footer>
 
     <!-- Hidden Admin Modal Interface -->
-    <div class="modal" id="admin-modal" style="display: flex;">
+    <div class="modal" id="admin-modal">
         <div class="modal-content">
-            <button class="close-btn" id="close-modal">×</button>
+            <button class="close-btn" id="close-modal">&times;</button>
             <h2 style="margin-bottom: 0.5rem; color: #0284c7;">⚙️ Store Admin Manager</h2>
-            <p id="role-indicator" style="font-size: 0.85rem; color: rgb(100, 116, 139); margin-bottom: 1rem; display: block;">🔓 Logged in as: Standard Admin</p>
+            <p id="role-indicator" style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem; display: none;"></p>
 
             <!-- Security PIN Auth Input -->
-            <div class="form-group" id="pin-container" style="display: none;">
+            <div class="form-group" id="pin-container">
                 <label>Enter Security PIN</label>
                 <input type="password" id="pin-input" placeholder="Enter PIN">
                 <button class="btn btn-primary" id="unlock-btn" style="margin-top:0.5rem;">Unlock Controls</button>
             </div>
 
             <!-- Admin Editor Controls (Hidden until unlocked by PIN) -->
-            <div id="admin-controls" style="display: block;">
+            <div id="admin-controls" style="display: none;">
                 <hr style="margin: 1rem 0;">
 
                 <h3>Site Configuration</h3>
@@ -234,26 +203,11 @@
 
                 <div class="admin-section">
                     <h3>Current Items</h3>
-                    <div id="admin-item-list" style="margin-top: 0.5rem;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
-                        <span><strong>Custom T-Shirt</strong> - $18.00</span>
-                        <button class="btn btn-danger" onclick="deleteItem(0)" style="padding:0.2rem 0.5rem; font-size:0.8rem;">Remove</button>
-                    </div>
-                
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
-                        <span><strong>Kids Serving Kidz Cap</strong> - $15.00</span>
-                        <button class="btn btn-danger" onclick="deleteItem(1)" style="padding:0.2rem 0.5rem; font-size:0.8rem;">Remove</button>
-                    </div>
-                
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
-                        <span><strong>3D Printed Keychain</strong> - $5.00</span>
-                        <button class="btn btn-danger" onclick="deleteItem(2)" style="padding:0.2rem 0.5rem; font-size:0.8rem;">Remove</button>
-                    </div>
-                </div>
+                    <div id="admin-item-list" style="margin-top: 0.5rem;"></div>
                 </div>
 
                 <!-- Superadmin Only Controls -->
-                <div class="admin-section" id="superadmin-settings" style="display: none; background: rgb(241, 245, 249); padding: 1rem; border-radius: 8px; border: 1px solid rgb(203, 213, 225);">
+                <div class="admin-section" id="superadmin-settings" style="display: none; background: #f1f5f9; padding: 1rem; border-radius: 8px; border: 1px solid #cbd5e1;">
                     <h3 style="color: #0f172a;">🔐 Superadmin Security Settings</h3>
                     <div class="form-group" style="margin-top:0.5rem;">
                         <label>Admin PIN</label>
@@ -271,7 +225,7 @@
                 </div>
 
                 <div class="admin-section">
-                    <button class="btn btn-success" id="publish-github-btn">🚀 Save &amp; Publish Live Changes</button>
+                    <button class="btn btn-success" id="publish-github-btn">🚀 Save & Publish Live Changes</button>
                 </div>
             </div>
         </div>
@@ -279,35 +233,17 @@
     <!-- Core Dynamic Data Container -->
     <script id="site-data-script">
         let siteData = {
-          "pin": "6525",
-          "superPin": "9999",
-          "title": "Kids Serving Kidz",
-          "tagline": "Kids helping kids build a brighter future through education.",
-          "mission": "Kids Serving Kidz is a non-profit organization run by kids, dedicated to raising funds to help children in the Dominican Republic afford and access continuing education. Every purchase directly supports educational opportunities and empowers young students to achieve their dreams.",
-          "products": [
-                    {
-                              "id": 1,
-                              "name": "Custom T-Shirt",
-                              "desc": "100% Cotton shirt with custom DR print",
-                              "price": 18,
-                              "img": ""
-                    },
-                    {
-                              "id": 2,
-                              "name": "Kids Serving Kidz Cap",
-                              "desc": "Adjustable baseball hat",
-                              "price": 15,
-                              "img": ""
-                    },
-                    {
-                              "id": 3,
-                              "name": "3D Printed Keychain",
-                              "desc": "Custom designed 3D printed emblem",
-                              "price": 5,
-                              "img": ""
-                    }
-          ]
-};
+            pin: "6525",
+            superPin: "9999",
+            title: "Kids Serving Kidz",
+            tagline: "Kids helping kids build a brighter future through education.",
+            mission: "Kids Serving Kidz is a non-profit organization run by kids, dedicated to raising funds to help children in the Dominican Republic afford and access continuing education. Every purchase directly supports educational opportunities and empowers young students to achieve their dreams.",
+            products: [
+                { id: 1, name: "Custom T-Shirt", desc: "100% Cotton shirt with custom DR print", price: 18.00, img: "" },
+                { id: 2, name: "Kids Serving Kidz Cap", desc: "Adjustable baseball hat", price: 15.00, img: "" },
+                { id: 3, name: "3D Printed Keychain", desc: "Custom designed 3D printed emblem", price: 5.00, img: "" }
+            ]
+        };
     </script>
 
     <script>
@@ -621,9 +557,8 @@
             const updatedHTML = "<!DOCTYPE html>\n" + currentHTML.replace(dataScriptRegex, newScriptTag);
 
             const pathParts = window.location.pathname.split('/').filter(p => p);
-            const repoOwner = 'learninggardenit';
-            const repoName = 'NP';
-
+            const repoOwner = window.location.hostname.split('.')[0];
+            const repoName = pathParts[0] || 'NP';
 
             const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/index.html`;
 
@@ -715,6 +650,5 @@
 
         renderSite();
     </script>
-
-
-</body></html>
+</body>
+</html>
