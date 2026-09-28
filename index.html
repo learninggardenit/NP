@@ -493,15 +493,16 @@
             });
         }
 
-        // Add Product Listener (With Auto-Compress)
-        document.getElementById('add-item-btn').addEventListener('click', async () => {
-            const name = document.getElementById('new-item-name').value;
-            const desc = document.getElementById('new-item-desc').value;
+        // --- Helper: Process and Add New Item ---
+        async function addNewItemFromForm() {
+            const nameInput = document.getElementById('new-item-name');
+            const name = nameInput.value.trim();
+            const desc = document.getElementById('new-item-desc').value.trim();
             const price = parseFloat(document.getElementById('new-item-price').value) || 0;
-            const urlImg = document.getElementById('new-item-img').value;
+            const urlImg = document.getElementById('new-item-img').value.trim();
             const fileInput = document.getElementById('new-item-file');
 
-            if (!name) return alert('Please enter an item name');
+            if (!name) return false;
 
             let finalImg = urlImg;
 
@@ -510,23 +511,38 @@
                     finalImg = await compressGalleryImage(fileInput.files[0]);
                 } catch (err) {
                     alert('Error processing image. Try another file.');
-                    return;
+                    return false;
                 }
             }
 
+            // Push to site data
             siteData.products.push({ id: Date.now(), name, desc, price, img: finalImg });
-            renderAdminProductList();
-            renderSite();
 
-            document.getElementById('new-item-name').value = '';
+            // Clear inputs
+            nameInput.value = '';
             document.getElementById('new-item-desc').value = '';
             document.getElementById('new-item-price').value = '';
             document.getElementById('new-item-img').value = '';
             fileInput.value = '';
+
+            return true;
+        }
+
+        // Add Product Listener
+        document.getElementById('add-item-btn').addEventListener('click', async () => {
+            const added = await addNewItemFromForm();
+            if (added) {
+                renderAdminProductList();
+                renderSite();
+                alert('Item added to local preview! Click "Save & Publish Live Changes" to push it live.');
+            } else {
+                alert('Please enter an item name.');
+            }
         });
 
         // Publish live to GitHub via REST API
-        document.getElementById('publish-github-btn').addEventListener('click', async () => {
+        document.getElementById('publish-github-btn').addEventListener('click', async (e) => {
+            const btn = e.target;
             let token = localStorage.getItem('gh_token') || '';
 
             if (currentUserRole === 'superadmin') {
@@ -544,17 +560,37 @@
 
             if (!token) return alert('No GitHub Personal Access Token configured. A Superadmin must log in and enter the GitHub PAT first.');
 
+            // Safety Check: Auto-add item if form was filled out but button wasn't clicked
+            if (document.getElementById('new-item-name').value.trim() !== '') {
+                await addNewItemFromForm();
+            }
+
+            btn.textContent = "🚀 Saving to GitHub...";
+            btn.disabled = true;
+
             siteData.title = document.getElementById('edit-title').value;
             siteData.tagline = document.getElementById('edit-tagline').value;
             siteData.mission = document.getElementById('edit-mission').value;
 
             renderSite();
+            renderAdminProductList();
 
+            // Hide Admin UI before DOM snapshot
+            adminModal.style.display = 'none';
+            document.getElementById('admin-controls').style.display = 'none';
+            document.getElementById('superadmin-settings').style.display = 'none';
+            document.getElementById('role-indicator').style.display = 'none';
+            document.getElementById('pin-container').style.display = 'block';
+            
+            document.getElementById('github-token').value = '';
+            document.getElementById('pin-input').value = '';
+
+            // Safe String Injection
             let currentHTML = document.documentElement.outerHTML;
             const dataScriptRegex = /<script id="site-data-script">[\s\S]*?<\/script>/;
             const newScriptTag = `<script id="site-data-script">\n        let siteData = ${JSON.stringify(siteData, null, 12)};\n    <\/script>`;
 
-            const updatedHTML = "<!DOCTYPE html>\n" + currentHTML.replace(dataScriptRegex, newScriptTag);
+            const updatedHTML = "<!DOCTYPE html>\n" + currentHTML.replace(dataScriptRegex, () => newScriptTag);
 
             const pathParts = window.location.pathname.split('/').filter(p => p);
             const repoOwner = window.location.hostname.split('.')[0];
@@ -584,14 +620,16 @@
 
                 if (updateRes.ok) {
                     alert('🎉 Success! Changes committed to GitHub. Your live site will update in ~1-2 minutes.');
-                    adminModal.style.display = 'none';
-                    document.getElementById('admin-controls').style.display = 'none';
+                    currentUserRole = null;
                 } else {
                     const err = await updateRes.json();
                     alert(`Error publishing: ${err.message}`);
                 }
             } catch (err) {
                 alert(`Failed to publish to GitHub: ${err.message}`);
+            } finally {
+                btn.textContent = "🚀 Save & Publish Live Changes";
+                btn.disabled = false;
             }
         });
 
@@ -651,4 +689,4 @@
         renderSite();
     </script>
 </body>
-</html>
+</html
